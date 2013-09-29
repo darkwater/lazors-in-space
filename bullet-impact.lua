@@ -41,8 +41,8 @@ end
 function BulletImpact:draw()
     local dist1, dist2 = self.life * self.speed, self.life * self.speed * 1.4
 
-    for i = 1, self.particles do
-        local theta = i / self.particles * math.pi*2
+    for i = 1, self.particles do                       -- bonus randomness!
+        local theta = i / self.particles * math.pi*2 + self.speed
 
         love.graphics.line(self.x + math.cos(theta) * dist1, self.y + math.sin(theta) * dist1,
                            self.x + math.cos(theta) * dist2, self.y + math.sin(theta) * dist2)

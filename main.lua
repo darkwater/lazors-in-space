@@ -9,6 +9,8 @@ function love.load()
     require("static-debris")
     require("bullet-impact")
     require("bullet")
+    require("shield")
+    require("base-ai")
     require("map")
     require("maps.main-menu")
     require("ship")
@@ -46,16 +48,11 @@ function love.load()
     game.world:setCallbacks( --[[ beginContact ]] function (fix1, fix2, contact)
 
         local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
-        local bullet = false
+        
+        if not ent1 or not ent2 then return end -- this never happened ok?
 
-        if     ent1 and ent1.isBullet then ent1:destroy()  bullet = 1
-        elseif ent2 and ent2.isBullet then ent2:destroy()  bullet = 2 end
-
-        if bullet then
-            local x, y = contact:getPositions()
-
-            BulletImpact:new(x, y)
-        end
+        if ent1.impact then ent1:impact(ent2, contact) end
+        if ent2.impact then ent2:impact(ent1, contact) end
 
     end --[[ endContact ]] --[[ preSolve ]] --[[ postSolve ]] )
 end
@@ -75,13 +72,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    game.ship:draw()
-
     for k,v in pairs(game.particles) do
+        love.graphics.setColor(255, 255, 255)
         v:draw()
     end
 
     for k,v in pairs(game.objects) do
+        love.graphics.setColor(255, 255, 255)
         v:draw()
     end
 end

@@ -23,6 +23,18 @@ function Bullet:initialize(x, y, ang, speed, colgroup)
     self.fixture:setGroupIndex(colgroup)
 
     self.isBullet = true
+    self.damage = 1
+end
+
+
+---
+-- Bullet:impact
+-- Gets called on impact. This will destroy the bullet.
+--
+-- @returns nil     Nothing
+function Bullet:impact()
+    BulletImpact:new(self.body:getX(), self.body:getY())
+    self:destroy()
 end
 
 

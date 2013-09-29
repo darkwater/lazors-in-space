@@ -43,6 +43,19 @@ end
 
 
 ---
+-- Entity:impact
+-- Gets called whenever there's a collision with another entity.
+--
+-- @param ent       The entity collided with
+-- @param contact   The contact object of the collision
+--
+-- @returns nil     Nothing
+function Entity:impact(ent, contact)
+
+end
+
+
+---
 -- Entity:destroy
 -- Destroys the entity.
 --

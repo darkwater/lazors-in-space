@@ -19,6 +19,8 @@ function Ship:initialize(x, y)
 
     self.nextFire = 0
     self.fireInterval = 0.1
+
+    self.shield = Shield:new(self.body, 22, 10)
 end
 
 
@@ -54,6 +56,23 @@ function Ship:update(dt)
 
         Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.PLAYER)
     end
+
+
+    self.shield:update(dt)
+end
+
+
+---
+-- Ship:impact
+-- Gets called whenever there's a collision with another entity.
+--
+-- @param ent       The entity collided with
+-- @param contact   The contact object of the collision
+--
+-- @returns nil     Nothing
+function Ship:impact(ent, contact)
+    local hp = ent.damage
+    self.shield:takeDamage(hp)
 end
 
 
@@ -63,8 +82,10 @@ end
 --
 -- @returns nil     Nothing
 function Ship:draw()
+    love.graphics.setColor(255, 50, 50) -- temporary
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius(), self.shape:getRadius())
     love.graphics.line(self.body:getX(), self.body:getY(), self.body:getWorldPoint(15, 0))
+    self.shield:draw()
 end
 
 
@@ -73,7 +94,7 @@ end
 -- Move the ship into a specific direction
 --
 -- @param ang       The angle of the direction (radians)
--- @param speedMul  Speed multiplayer, 1 is normal speed
+-- @param speedMul  Speed multiplier, 1 is normal speed
 --
 -- @returns nil     Nothing
 function Ship:moveInDirection(ang, speedMul)
