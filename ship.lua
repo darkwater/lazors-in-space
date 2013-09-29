@@ -26,6 +26,8 @@ end
 -- Ship:update
 -- Updates the ship.
 --
+-- @param dt        Time passed since last frame
+--
 -- @returns nil     Nothing
 function Ship:update(dt)
     local mx, my = 0, 0
