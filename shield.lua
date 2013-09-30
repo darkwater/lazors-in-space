@@ -23,7 +23,7 @@ end
 --
 -- @returns nil     Nothing
 function Shield:update(dt)
-    self.level = math.min(self.max, self.level + dt)
+    self.level = math.min(self.max, self.level + dt / 5)
 end
 
 
@@ -36,7 +36,7 @@ function Shield:draw()
     love.graphics.setColor(200, 200, 200, 150)
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size - 2, 30)
 
-    love.graphics.setColor(150, 200, 255, 150)
+    love.graphics.setColor(150, 200, 255, 250)
     -- love.graphics.arc("line", self.body:getX(), self.body:getY(), self.size + 2, 0, self.level / self.max * math.pi * 2, 30) -- shield ~= pacman!  :<
 
     local vertices = {}

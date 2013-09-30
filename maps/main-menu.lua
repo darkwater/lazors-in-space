@@ -1,2 +1,0 @@
-MainMenu = class("MainMenu", Map)
-

@@ -39,7 +39,7 @@ function BaseAI:update(dt)
     self:aimInDirection(math.atan2(dy, dx))
 
 
-    if self.nextFire <= love.timer.getTime() and math.random(1,100) == 1 then
+    if self.nextFire <= love.timer.getTime() and math.random(1,200) == 1 then
         self.nextFire = love.timer.getTime() + self.fireInterval
 
         Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.ENEMY)
@@ -55,6 +55,23 @@ end
 function BaseAI:draw()
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius(), self.shape:getRadius())
     love.graphics.line(self.body:getX(), self.body:getY(), self.body:getWorldPoint(15, 0))
+end
+
+
+---
+-- BaseAI:impact
+-- Gets called whenever there's a collision with another entity.
+--
+-- @param ent       The entity collided with
+-- @param contact   The contact object of the collision
+--
+-- @returns nil     Nothing
+function BaseAI:impact(ent, contact)
+    local hp = ent.damage or 0
+    if hp > 0 then
+    -- self.shield:takeDamage(hp)
+        self:destroy()
+    end
 end
 
 

@@ -39,7 +39,9 @@ end
 --
 -- @returns nil     Nothing
 function BulletImpact:draw()
-    local dist1, dist2 = self.life * self.speed, self.life * self.speed * 1.4
+    love.graphics.setColor(255, 250, 240, 200)
+
+    local dist1, dist2 = self.life * self.speed * 0.6, self.life * self.speed * 1.4
 
     for i = 1, self.particles do                       -- bonus randomness!
         local theta = i / self.particles * math.pi*2 + self.speed

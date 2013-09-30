@@ -12,11 +12,14 @@ function love.load()
     require("shield")
     require("base-ai")
     require("map")
-    require("maps.main-menu")
+    require("maps.arena")
     require("ship")
 
     game = {}
     game.world = love.physics.newWorld(0, 0, true)
+
+    game.centerx = 0
+    game.centery = 0
 
     --== Objects ==--
         game.objects = {}
@@ -42,8 +45,8 @@ function love.load()
         end
     -------------------
     
-    game.ship = Ship:new(100, 100)
-    game.map = MainMenu:new()
+    game.ship = Ship:new(0, 0)
+    game.map = Arena:new()
 
     game.world:setCallbacks( --[[ beginContact ]] function (fix1, fix2, contact)
 
@@ -58,7 +61,13 @@ function love.load()
 end
 
 function love.update(dt)
+    game.centerx = game.centerx + (love.window:getWidth() /2 - game.ship.body:getX() - game.centerx) / 10
+    game.centery = game.centery + (love.window:getHeight()/2 - game.ship.body:getY() - game.centery) / 10
+    game.mousex  = love.mouse.getX() - game.centerx
+    game.mousey  = love.mouse.getY() - game.centery
+
     game.world:update(dt)
+    game.map:update(dt)
 
     -- game.map:update()
 
@@ -72,6 +81,8 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.translate(game.centerx, game.centery)
+
     for k,v in pairs(game.particles) do
         love.graphics.setColor(255, 255, 255)
         v:draw()

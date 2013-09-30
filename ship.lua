@@ -45,8 +45,8 @@ function Ship:update(dt)
 
 
     if love.window.hasMouseFocus() then
-        local dx = love.mouse.getX() - self.body:getX()
-        local dy = love.mouse.getY() - self.body:getY()
+        local dx = game.mousex - self.body:getX()
+        local dy = game.mousey - self.body:getY()
         self:aimInDirection(math.atan2(dy, dx))
     end
 
