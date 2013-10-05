@@ -2,16 +2,17 @@ BaseAI = class("BaseAI", CircleEntity)
 
 ---
 -- BaseAI:initialize
--- The main BaseAI which can be controller by the player.
+-- A simple base AI, currently used for testing.
 --
 -- @param x         X position
 -- @param y         Y position
 --
 -- @returns nil     Nothing
 function BaseAI:initialize(x, y)
-    Entity.initialize(self, x, y, "dynamic", love.physics.newCircleShape(15))
-    self.speed = 50
+    Entity.initialize(self, x, y, "dynamic", love.physics.newCircleShape(10))
+    self.speed = 60
     -- self.turnSspeed = 500
+    self.body:setLinearDamping(3)
     self.fixture:setRestitution(1)
 
     self.fixture:setGroupIndex(colgroup.ENEMY)
@@ -19,10 +20,12 @@ function BaseAI:initialize(x, y)
     self.nextFire = 0
     self.fireInterval = 0.1
 
+    self.moveOffset = math.random(-20, 20) / 180 * math.pi
+
     self.damage = 1
 
     local ang = math.random(1, 360) / 180 * math.pi
-    self.body:applyLinearImpulse(math.cos(ang) * self.speed, math.sin(ang) * self.speed)
+    self.body:applyLinearImpulse(math.cos(ang) * 10, math.sin(ang) * 10)
 end
 
 
@@ -36,14 +39,17 @@ end
 function BaseAI:update(dt)
     local dx = game.ship.body:getX() - self.body:getX()
     local dy = game.ship.body:getY() - self.body:getY()
-    self:aimInDirection(math.atan2(dy, dx))
+    local ang = math.atan2(dy, dx) + self.moveOffset
+
+    self:aimInDirection(ang)
+    self.body:applyForce(math.cos(ang) * self.speed, math.sin(ang) * self.speed)
 
 
-    if self.nextFire <= love.timer.getTime() and math.random(1,200) == 1 then
-        self.nextFire = love.timer.getTime() + self.fireInterval
+    -- if self.nextFire <= love.timer.getTime() and math.random(1,200) == 1 then
+    --     self.nextFire = love.timer.getTime() + self.fireInterval
 
-        Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.ENEMY)
-    end
+    --     Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.ENEMY)
+    -- end
 end
 
 
@@ -54,7 +60,7 @@ end
 -- @returns nil     Nothing
 function BaseAI:draw()
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius(), self.shape:getRadius())
-    love.graphics.line(self.body:getX(), self.body:getY(), self.body:getWorldPoint(15, 0))
+    -- love.graphics.line(self.body:getX(), self.body:getY(), self.body:getWorldPoint(15, 0))
 end
 
 

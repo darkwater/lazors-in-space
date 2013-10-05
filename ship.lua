@@ -20,6 +20,8 @@ function Ship:initialize(x, y)
     self.nextFire = 0
     self.fireInterval = 0.1
 
+    self.damage = 5
+
     self.shield = Shield:new(self.body, 22, 10)
 end
 

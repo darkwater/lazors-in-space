@@ -23,16 +23,24 @@ end
 --
 -- @returns nil     Nothing
 function Arena:update(dt)
-    if math.random(1, 4000) == 1 then
-        BaseAI:new(0, 400)
+    if math.random(1, 2000) == 1 then
+        for i=1, math.random(1, 4) do
+            BaseAI:new(0, 400)
+        end
     end
-    if math.random(1, 4000) == 1 then
-        BaseAI:new(0, -400)
+    if math.random(1, 2000) == 1 then
+        for i=1, math.random(1, 4) do
+            BaseAI:new(0, -400)
+        end
     end
-    if math.random(1, 4000) == 1 then
-        BaseAI:new(400, 0)
+    if math.random(1, 2000) == 1 then
+        for i=1, math.random(1, 4) do
+            BaseAI:new(400, 0)
+        end
     end
-    if math.random(1, 4000) == 1 then
-        BaseAI:new(-400, 0)
+    if math.random(1, 2000) == 1 then
+        for i=1, math.random(1, 4) do
+            BaseAI:new(-400, 0)
+        end
     end
 end
