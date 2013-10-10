@@ -26,6 +26,8 @@ function BaseAI:initialize(x, y)
 
     local ang = math.random(1, 360) / 180 * math.pi
     self.body:applyLinearImpulse(math.cos(ang) * 10, math.sin(ang) * 10)
+
+    self.shield = Shield:new(self.body, 15, 1)
 end
 
 
@@ -50,6 +52,9 @@ function BaseAI:update(dt)
 
     --     Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.ENEMY)
     -- end
+
+
+    self.shield:update(dt)
 end
 
 
@@ -59,8 +64,13 @@ end
 --
 -- @returns nil     Nothing
 function BaseAI:draw()
+    if self.shield:isEmpty() then
+        love.graphics.setColor(200, 200, 200)
+    else
+        love.graphics.setColor(200, 200, 240)
+    end
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius(), self.shape:getRadius())
-    -- love.graphics.line(self.body:getX(), self.body:getY(), self.body:getWorldPoint(15, 0))
+    -- self.shield:draw()
 end
 
 
@@ -75,8 +85,11 @@ end
 function BaseAI:impact(ent, contact)
     local hp = ent.damage or 0
     if hp > 0 then
-    -- self.shield:takeDamage(hp)
-        self:destroy()
+        if not self.shield:isEmpty() then
+            self.shield:takeDamage(hp)
+        else
+            self:destroy()
+        end
     end
 end
 

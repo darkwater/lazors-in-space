@@ -49,7 +49,9 @@ function Shield:draw()
         table.insert(vertices, y + math.sin(theta) * self.size)
     end
 
-    love.graphics.line(unpack(vertices))
+    if #vertices > 3 then
+        love.graphics.line(unpack(vertices))
+    end
 end
 
 
@@ -64,4 +66,14 @@ function Shield:takeDamage(hp)
     if not hp then return end 
 
     self.level = math.max(0, self.level - hp)
+end
+
+
+---
+-- Shield:takeDamage
+-- Subtract hitpoints.
+--
+-- @returns bool    True if the shield's level is less than 1, false otherwise
+function Shield:isEmpty()
+    return self.level < 1
 end

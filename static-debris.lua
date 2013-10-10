@@ -8,7 +8,76 @@ StaticDebris = class("StaticDebris", Entity)
 --
 -- @returns nil     Nothing
 function StaticDebris:initialize(vertices)
-    Entity.initialize(self, 0, 0, "static", love.physics.newPolygonShape(unpack(vertices)))
+
+    -- Decide X/Y
+    local xt,  yt    = {}, {}
+    local odd        = true
+    local sumx, sumy = 0, 0
+    for k,v in pairs(vertices) do   table.insert(odd and xt or yt, v)  odd = not odd    end
+    for k,v in pairs(xt) do         sumx = sumx + v                                     end
+    for k,v in pairs(yt) do         sumy = sumy + v                                     end
+    local x = sumx / #xt
+    local y = sumy / #yt
+
+    -- Fix vertices
+    local odd = true
+    for k,v in pairs(vertices) do   vertices[k] = v - (odd and x or y)  odd = not odd   end
+
+
+    Entity.initialize(self, x, y, "static", love.physics.newPolygonShape(unpack(vertices)))
+
+    self.editColor = { math.random(180,250), math.random(180,250), math.random(180,250) }
+    self.grabbed = false
+    self.rotating = false
+end
+
+
+---
+-- StaticDebris:update
+-- Updates the StaticDebris, used for the editor.
+--
+-- @param dt        Delta time
+--
+-- @returns nil     Nothing
+function StaticDebris:update(dt)
+    if not editor.active then
+        self.mouseover = false
+        return
+    end
+
+    self.mouseover = editor.active and self.fixture:testPoint(game.mousex, game.mousey)
+
+    -- moving
+    if self.mouseover and game.mousepressed["l"] then
+        self.grabbed = true
+        self.grabx = game.mousex - self.body:getX()
+        self.graby = game.mousey - self.body:getY()
+    elseif self.grabbed then
+        self.body:setX(game.mousex - self.grabx)
+        self.body:setY(game.mousey - self.graby)
+
+        if game.mousereleased["l"] then
+            self.grabbed = false
+        end
+    end
+
+    -- rotating
+    if self.mouseover and game.mousepressed["r"] then
+        self.rotating = true
+        local dx = game.mousex - self.body:getX()
+        local dy = game.mousey - self.body:getY()
+
+        self.rotateang = math.atan2(dy, dx) - self.body:getAngle()
+    elseif self.rotating then
+        local dx = game.mousex - self.body:getX()
+        local dy = game.mousey - self.body:getY()
+
+        self.body:setAngle((math.atan2(dy, dx) - self.rotateang) % (math.pi * 2))
+
+        if game.mousereleased["r"] then
+            self.rotating = false
+        end
+    end
 end
 
 
@@ -18,5 +87,8 @@ end
 --
 -- @returns nil     Nothing
 function StaticDebris:draw()
-    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    if self.mouseover then love.graphics.setColor(self.editColor)
+                      else love.graphics.setColor(255, 255, 255) end
+
+    love.graphics.polygon((self.mouseover and not self.grabbed) and "fill" or "line", self.body:getWorldPoints(self.shape:getPoints()))
 end

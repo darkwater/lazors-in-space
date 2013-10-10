@@ -18,7 +18,8 @@ function Ship:initialize(x, y)
     self.fixture:setGroupIndex(colgroup.PLAYER)
 
     self.nextFire = 0
-    self.fireInterval = 0.1
+    self.fireInterval = 0.06
+    self.accuracy = 10 -- TODO: change accuracy according to distance of mouse?
 
     self.damage = 5
 
@@ -53,10 +54,13 @@ function Ship:update(dt)
     end
 
 
-    if love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
+    if not editor.active and love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
         self.nextFire = love.timer.getTime() + self.fireInterval
 
-        Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 20, colgroup.PLAYER)
+        local ang = self.body:getAngle() + math.random(-self.accuracy, self.accuracy) / 100
+        local dx = math.cos(ang) * 15
+        local dy = math.sin(ang) * 15
+        Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 20, colgroup.PLAYER)
     end
 
 
