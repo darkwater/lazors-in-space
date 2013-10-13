@@ -15,6 +15,14 @@ function love.load()
     require("maps.arena")
     require("ship")
 
+    --== Interface ==--
+        fonts = {}
+        fonts.droidsans = {}
+        fonts.droidsans[16] = love.graphics.newFont("fonts/DroidSans.ttf", 16)
+        fonts.droidsansbold = {}
+        fonts.droidsansbold[14] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 14)
+    -------------------
+
     --== Game ==--
         game = {}
         game.time = 0
@@ -82,6 +90,7 @@ function love.load()
     --== Editor ==--
         editor = {}
         editor.active = false
+        require("edit-tools")
     ----------------
 end
 
@@ -108,9 +117,21 @@ function love.update(dt)
     for k,v in pairs(game.objects) do
         v:update(dt)
     end
+
+
+    --=# Editor #=--
+    if editor.active then
+
+
+    editor.tools.update(dt)
+
+
+    end
 end
 
 function love.draw()
+    love.graphics.setFont(fonts.droidsans[16])
+
     for k,v in pairs(game.background) do
         local x = game.centerx * v.parallax - v.x
         local y = game.centery * v.parallax - v.y
@@ -140,26 +161,12 @@ function love.draw()
 
 
     love.graphics.setColor(210, 220, 250)
+    love.graphics.setFont(fonts.droidsansbold[14])
     love.graphics.print("Editor mode", 10, 10)
 
-    -- love.graphics.push()
-    -- love.graphics.translate(math.floor(game.centerx) + .5, math.floor(game.centery) + .5)
-    --     love.graphics.setColor(200, 240, 180)
-    --     for _,obj in pairs(game.objects) do
-    --         if obj.class.name == "StaticDebris" or obj.class.name == "MapBoundary" then
-    --             local points = {obj.shape:getPoints()}
-    --             for i=1, #points, 2 do
-    --                 local dx = game.mousex - points[i]
-    --                 local dy = game.mousey - points[i+1]
-    --                 local dist = math.sqrt(dx^2 + dy^2)
+    
+    editor.tools.draw()
 
-    --                 local mousedown = dist < 10
-
-    --                 love.graphics.circle(mousedown and "fill" or "line", points[i], points[i+1], 10, 12)
-    --             end
-    --         end
-    --     end
-    -- love.graphics.pop()
 
     end
     --=# Cleanup #=--

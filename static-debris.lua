@@ -7,7 +7,8 @@ StaticDebris = class("StaticDebris", Entity)
 -- @param vertices  A table of vertices
 --
 -- @returns nil     Nothing
-function StaticDebris:initialize(vertices)
+function StaticDebris:initialize(...)
+    local vertices = {...}
 
     -- Decide X/Y
     local xt,  yt    = {}, {}

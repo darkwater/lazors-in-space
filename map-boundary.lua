@@ -7,7 +7,9 @@ MapBoundary = class("MapBoundary", Entity)
 -- @param vertices  A table of vertices
 --
 -- @returns nil     Nothing
-function MapBoundary:initialize(vertices)
+function MapBoundary:initialize(...)
+    local vertices = {...}
+    
     self.vertices = vertices
     Entity.initialize(self, 0, 0, "static", love.physics.newChainShape(true, unpack(vertices)))
 end

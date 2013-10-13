@@ -7,18 +7,16 @@ Arena = class("Arena", Map)
 -- @returns nil     Nothing
 function Arena:initialize()
     self:loadData([=[
-        Everything outside brackets will be ignored, as with everything between
-        brackets that's not a number, minus sign, or comma. Remember: No decimals.
+
+        // Format:
+        //     { ObjectClass: parameter1, parameter2, ..., parameterN }
         
-        The first object is always the map's boundary:
-        { -500,0 , 0,-500 , 500,0 , 0,500 }
+        { MapBoundary: -500,0 , 0,-500 , 500,0 , 0,500 }
     
-        The rest will be StaticDebris. If you want something else, put it in the lua source.
-    
-        { -200,-100 ,-200, 100 ,-300, 0 }  Left deflector
-        { -100,-200 , 100,-200 , 0,-300 }  Top deflector
-        {  200,-100 , 200, 100 , 300, 0 }  Right deflector
-        { -100, 200 , 100, 200 , 0, 300 }  Bottom deflector
+        { StaticDebris: -200,-100 ,-200, 100 ,-300, 0 }  // Left deflector
+        { StaticDebris: -100,-200 , 100,-200 , 0,-300 }  // Top deflector
+        { StaticDebris:  200,-100 , 200, 100 , 300, 0 }  // Right deflector
+        { StaticDebris: -100, 200 , 100, 200 , 0, 300 }  // Bottom deflector
     ]=])
 end
 
