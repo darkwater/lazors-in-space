@@ -18,7 +18,7 @@ function Ship:initialize(x, y)
     self.fixture:setGroupIndex(colgroup.PLAYER)
 
     self.nextFire = 0
-    self.fireInterval = 0.06
+    self.fireInterval = 0.12
     self.accuracy = 10 -- TODO: change accuracy according to distance of mouse?
 
     self.damage = 5
@@ -61,6 +61,9 @@ function Ship:update(dt)
         local dx = math.cos(ang) * 15
         local dy = math.sin(ang) * 15
         Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 20, colgroup.PLAYER)
+
+        sounds.player_shoot:rewind()
+        sounds.player_shoot:play()
     end
 
 

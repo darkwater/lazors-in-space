@@ -92,6 +92,14 @@ function love.load()
         editor.active = false
         require("edit-tools")
     ----------------
+
+    --== Sounds ==--
+        local soundsToLoad = { {"player_shoot", "ogg", "static"} }
+        sounds = {}
+        for k,v in pairs(soundsToLoad) do
+            sounds[v[1]] = love.audio.newSource("sounds/"..v[1].."."..v[2], v[3])
+        end
+    ----------------
 end
 
 function love.update(dt)
