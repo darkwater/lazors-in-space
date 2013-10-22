@@ -4,41 +4,44 @@ editor.tools.active = 0
 editor.tools.y = 70
 editor.tools.width = 200
 editor.tools.height = 40
-require("edit-tools-static-debris")
+editor.tools.hovering = 0
+
+table.insert(editor.tools.tools, require("edit-tools-static-debris"))
 
 
 editor.tools.update = function (dt)
-    if game.mousepressed["l"] and love.mouse.getX() < editor.tools.width then
-        if editor.tools.active > 0 then
+    local mousex = love.mouse.getX()
+    local mousey = love.mouse.getY()
 
-            local mousey = love.mouse.getY()
+    if mousex < editor.tools.width and mousey > editor.tools.y and mousey < editor.tools.y + editor.tools.height * #editor.tools.tools then
+        editor.tools.hovering = math.floor((mousey - editor.tools.y) / editor.tools.height) + 1
 
-            if mousey > editor.tools.y and mousey < editor.tools.y + editor.tools.height then
+        if game.mousepressed["l"] then
+            if editor.tools.active > 0 then -- cancel
                 editor.tools.active = 0
-            end
+            else
 
-        else
+                local v = editor.tools.tools[editor.tools.hovering]
+                if v then
 
-            local mousey = love.mouse.getY()
-
-            local y = editor.tools.y
-            for k,v in pairs(editor.tools.tools) do
-                if mousey > y and mousey < y + editor.tools.height then
-                    
                     if v.click then v:click() end
-                    editor.tools.active = k
-
-                    break
+                    editor.tools.active = editor.tools.hovering
+                   
                 end
-                y = y + editor.tools.height
-            end
 
+            end
         end
+    else
+        editor.tools.hovering = 0
     end
 end
 
 
 editor.tools.draw = function ()
+    if editor.tools.hovering > 0 then
+        love.graphics.rectangle("fill", 0, (editor.tools.hovering - 1) * editor.tools.height + editor.tools.y, 2, editor.tools.height)
+    end
+
     if editor.tools.active > 0 then
         local tool = editor.tools.tools[editor.tools.active]
 
@@ -55,6 +58,7 @@ editor.tools.draw = function ()
         love.graphics.setColor(250, 251, 255)
 
         local y = editor.tools.y
+
         for k,v in pairs(editor.tools.tools) do
             love.graphics.print(v.label, 50, y + 10)
             y = y + editor.tools.height

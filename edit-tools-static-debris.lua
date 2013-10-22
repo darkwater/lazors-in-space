@@ -1,4 +1,4 @@
-table.insert(editor.tools.tools, {
+return {
     icon = nil,
     label = "Static Debris",
     click = function (self)
@@ -10,4 +10,4 @@ table.insert(editor.tools.tools, {
     draw = function (self)
         love.graphics.circle("line", love.mouse.getX(), love.mouse.getY(), 5, 10)
     end
-})
+}
