@@ -85,6 +85,8 @@ end
 function BaseAI:impact(ent, contact)
     local hp = ent.damage or 0
     if hp > 0 then
+        sounds.play("enemy_hit")
+
         if not self.shield:isEmpty() then
             self.shield:takeDamage(hp)
         else

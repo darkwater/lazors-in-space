@@ -62,8 +62,7 @@ function Ship:update(dt)
         local dy = math.sin(ang) * 15
         Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 20, colgroup.PLAYER)
 
-        sounds.player_shoot:rewind()
-        sounds.player_shoot:play()
+        sounds.play("player_shoot")
     end
 
 
@@ -80,8 +79,12 @@ end
 --
 -- @returns nil     Nothing
 function Ship:impact(ent, contact)
-    local hp = ent.damage
-    self.shield:takeDamage(hp)
+    local hp = ent.damage or 0
+
+    if hp > 0 then
+        self.shield:takeDamage(hp)
+        sounds.play("player_hit")
+    end
 end
 
 

@@ -34,6 +34,7 @@ end
 -- @returns nil     Nothing
 function Bullet:impact()
     BulletImpact:new(self.body:getX(), self.body:getY())
+    sounds.play("bullet_hit")
     self:destroy()
 end
 

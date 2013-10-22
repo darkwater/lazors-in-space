@@ -94,10 +94,14 @@ function love.load()
     ----------------
 
     --== Sounds ==--
-        local soundsToLoad = { {"player_shoot", "ogg", "static"} }
+        local soundsToLoad = { {"player_shoot", "ogg", "static"}, {"enemy_hit", "ogg", "static"}, {"bullet_hit", "ogg", "static"}, {"player_hit", "ogg", "static"} }
         sounds = {}
         for k,v in pairs(soundsToLoad) do
             sounds[v[1]] = love.audio.newSource("sounds/"..v[1].."."..v[2], v[3])
+        end
+        function sounds.play(name)
+            sounds[name]:rewind()
+            sounds[name]:play()
         end
     ----------------
 end
