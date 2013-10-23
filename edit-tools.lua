@@ -7,13 +7,27 @@ editor.tools.height = 40
 editor.tools.hovering = 0
 
 table.insert(editor.tools.tools, require("edit-tools-static-debris"))
+table.insert(editor.tools.tools, require("edit-tools-map-boundary"))
 
 
 editor.tools.update = function (dt)
     local mousex = love.mouse.getX()
     local mousey = love.mouse.getY()
 
-    if mousex < editor.tools.width and mousey > editor.tools.y and mousey < editor.tools.y + editor.tools.height * #editor.tools.tools then
+    if editor.tools.active > 0 then
+        local v = editor.tools.tools[editor.tools.active]
+        if v then
+
+            if v.update then
+                if v:update() then
+                    editor.tools.active = 0
+                end
+            end
+
+        end
+    end
+
+    if mousex < editor.tools.width and mousey > editor.tools.y and mousey < editor.tools.y + editor.tools.height * (editor.tools.active > 0 and 1 or #editor.tools.tools) then
         editor.tools.hovering = math.floor((mousey - editor.tools.y) / editor.tools.height) + 1
 
         if game.mousepressed["l"] then
@@ -24,7 +38,7 @@ editor.tools.update = function (dt)
                 local v = editor.tools.tools[editor.tools.hovering]
                 if v then
 
-                    if v.click then v:click() end
+                    if v.activate then v:activate() end
                     editor.tools.active = editor.tools.hovering
                    
                 end
@@ -45,7 +59,14 @@ editor.tools.draw = function ()
     if editor.tools.active > 0 then
         local tool = editor.tools.tools[editor.tools.active]
 
-        if tool.draw then tool:draw() end
+        if tool.drawhud then tool:drawhud() end
+
+        if tool.drawworld then
+            love.graphics.push()
+            love.graphics.translate(math.floor(game.centerx) + .5, math.floor(game.centery) + .5)
+                tool:drawworld()
+            love.graphics.pop()
+        end
 
 
         love.graphics.setFont(fonts.droidsans[16])

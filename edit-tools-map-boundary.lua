@@ -1,6 +1,6 @@
 return {
     icon = nil,
-    label = "Static Debris",
+    label = "Map Boundary",
     activate = function (self)
         self.points = {}
     end,
@@ -12,9 +12,9 @@ return {
                     table.insert(points, v.x)
                     table.insert(points, v.y)
                 end
-                StaticDebris:new(unpack(points))
+                MapBoundary:new(unpack(points))
                 return true
-            elseif #self.points < 8 then
+            else
                 table.insert(self.points, { x = game.mousex, y = game.mousey })
             end
         end

@@ -3,6 +3,7 @@ function love.load()
 
     class = require("middleclass")
     require("constants")
+    require("utils")
     require("entity")
     require("map-boundary")
     require("circle-entity")
@@ -18,6 +19,7 @@ function love.load()
     --== Interface ==--
         fonts = {}
         fonts.droidsans = {}
+        fonts.droidsans[14] = love.graphics.newFont("fonts/DroidSans.ttf", 14)
         fonts.droidsans[16] = love.graphics.newFont("fonts/DroidSans.ttf", 16)
         fonts.droidsansbold = {}
         fonts.droidsansbold[14] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 14)
@@ -89,7 +91,7 @@ function love.load()
 
     --== Editor ==--
         editor = {}
-        editor.active = false
+        editor.active = true
         require("edit-tools")
     ----------------
 
@@ -104,6 +106,8 @@ function love.load()
             sounds[name]:play()
         end
     ----------------
+
+    love.graphics.setLineWidth(1.1)
 end
 
 function love.update(dt)
@@ -180,6 +184,10 @@ function love.draw()
     editor.tools.draw()
 
 
+    else
+        love.graphics.setColor(210, 220, 250, 150)
+        love.graphics.setFont(fonts.droidsans[14])
+        love.graphics.print("Press F10 to enter editor mode", 10, 10)
     end
     --=# Cleanup #=--
 
