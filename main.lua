@@ -2,6 +2,7 @@ function love.load()
     love.physics.setMeter(64)
 
     class = require("middleclass")
+    require("json")
     require("constants")
     require("utils")
     require("entity")
@@ -12,6 +13,7 @@ function love.load()
     require("bullet")
     require("shield")
     require("base-ai")
+    require("entity-spawner")
     require("map")
     require("maps.arena")
     require("ship")
@@ -91,7 +93,7 @@ function love.load()
 
     --== Editor ==--
         editor = {}
-        editor.active = true
+        editor.active = false
         require("edit-tools")
     ----------------
 

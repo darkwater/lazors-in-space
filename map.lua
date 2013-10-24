@@ -37,11 +37,12 @@ function Map:loadData(data)
     local arguments  = {}
     local i          = 1
     local length     = #data
+    local nestLevel  = 0
 
     while i <= length do
         local char = data:sub(i, i)
 
-        if char == " " and not inString then
+        if char == " " and nestLevel == 0 then
             -- do nothing
 
         elseif not inComment and char == "/" and data:sub(i+1, i+1) == "/" then
@@ -73,10 +74,24 @@ function Map:loadData(data)
 
             else
 
-                if char == "," then
+                if char == "{" or char == "[" then
+                    nestLevel = nestLevel + 1
+                elseif (char == "}" or char == "]") and nestLevel > 0 then
+                    nestLevel = nestLevel - 1
+                end
+
+                if char == "," and nestLevel == 0 then
                     arguments[#arguments+1] = ""
-                elseif char == "}" then
+                elseif char == "}" and nestLevel == 0 then
                     -- finished object
+
+                    for k,v in pairs(arguments) do
+                        if tonumber(v) ~= nil then
+                            arguments[k] = tonumber(v)
+                        elseif "[" .. v:sub(2, #v - 1) .. "]" == v or "{" .. v:sub(2, #v - 1) .. "}" == v then
+                            arguments[k] = json.decode(v)
+                        end
+                    end
 
                     table.insert(objects, { className = className, arguments = arguments });
                     inBrackets = false

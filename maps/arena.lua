@@ -17,6 +17,11 @@ function Arena:initialize()
         { StaticDebris: -100,-200 , 100,-200 , 0,-300 }  // Top deflector
         { StaticDebris:  200,-100 , 200, 100 , 300, 0 }  // Right deflector
         { StaticDebris: -100, 200 , 100, 200 , 0, 300 }  // Bottom deflector
+
+        { EntitySpawner: -400, 0, BaseAI, 0, [1, 12], [1, 4] }  // Left spawner
+        { EntitySpawner:  0,-400, BaseAI, 0, [1, 12], [1, 4] }  // Top spawner
+        { EntitySpawner:  400, 0, BaseAI, 0, [1, 12], [1, 4] }  // Right spawner
+        { EntitySpawner:  0, 400, BaseAI, 0, [1, 12], [1, 4] }  // Bottom spawner
     ]=])
 end
 
@@ -29,26 +34,5 @@ end
 --
 -- @returns nil     Nothing
 function Arena:update(dt)
-    if editor.active then return end
-    
-    if math.random(1, 2000) == 1 then
-        for i=1, math.random(1, 4) do
-            BaseAI:new(0, 400)
-        end
-    end
-    if math.random(1, 2000) == 1 then
-        for i=1, math.random(1, 4) do
-            BaseAI:new(0, -400)
-        end
-    end
-    if math.random(1, 2000) == 1 then
-        for i=1, math.random(1, 4) do
-            BaseAI:new(400, 0)
-        end
-    end
-    if math.random(1, 2000) == 1 then
-        for i=1, math.random(1, 4) do
-            BaseAI:new(-400, 0)
-        end
-    end
+
 end
