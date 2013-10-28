@@ -57,7 +57,7 @@ function Ship:update(dt)
     if not editor.active and love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
         self.nextFire = love.timer.getTime() + self.fireInterval
 
-        local ang = self.body:getAngle() + math.random(-self.accuracy, self.accuracy) / 100
+        local ang = self.body:getAngle()-- + math.random(-self.accuracy, self.accuracy) / 100
         local dx = math.cos(ang) * 15
         local dy = math.sin(ang) * 15
         Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 20, colgroup.PLAYER)

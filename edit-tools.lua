@@ -63,7 +63,8 @@ editor.tools.draw = function ()
 
         if tool.drawworld then
             love.graphics.push()
-            love.graphics.translate(math.floor(game.centerx) + .5, math.floor(game.centery) + .5)
+            love.graphics.translate(math.floor(game.camerax) + .5 + love.window:getWidth() / 2, math.floor(game.cameray) + .5 + love.window:getHeight()/2)
+            love.graphics.scale(game.zoom)
                 tool:drawworld()
             love.graphics.pop()
         end

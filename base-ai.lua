@@ -9,8 +9,10 @@ BaseAI = class("BaseAI", CircleEntity)
 --
 -- @returns nil     Nothing
 function BaseAI:initialize(x, y)
+    if editor.active then return false end
+
     Entity.initialize(self, x, y, "dynamic", love.physics.newCircleShape(10))
-    self.speed = 60
+    self.speed = math.random(50, 65)
     -- self.turnSspeed = 500
     self.body:setLinearDamping(3)
     self.fixture:setRestitution(1)
@@ -39,6 +41,8 @@ end
 --
 -- @returns nil     Nothing
 function BaseAI:update(dt)
+    if editor.active then self:destroy() return end
+
     local dx = game.ship.body:getX() - self.body:getX()
     local dy = game.ship.body:getY() - self.body:getY()
     local ang = math.atan2(dy, dx) + self.moveOffset

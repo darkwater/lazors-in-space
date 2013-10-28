@@ -34,8 +34,10 @@ function love.load()
         game.mousepressed = {}
         game.mousereleased = {}
 
-        game.centerx = 0
-        game.centery = 0
+        game.camerax = 0
+        game.cameray = 0
+        game.zoom = 1
+        game.zoomtarget = 1
 
         --== Objects ==--
             game.objects = {}
@@ -118,10 +120,10 @@ function love.update(dt)
         love.window.setTitle(love.timer.getFPS())
     end
 
-    game.centerx = game.centerx + (love.window:getWidth() /2 - game.ship.body:getX() - game.centerx) / 10
-    game.centery = game.centery + (love.window:getHeight()/2 - game.ship.body:getY() - game.centery) / 10
-    game.mousex  = love.mouse.getX() - game.centerx
-    game.mousey  = love.mouse.getY() - game.centery
+    game.zoom = game.zoom + (game.zoomtarget - game.zoom) / 10
+    game.camerax = game.camerax + ((0 - game.ship.body:getX()) * game.zoom - game.camerax) / 10
+    game.cameray = game.cameray + ((0 - game.ship.body:getY()) * game.zoom - game.cameray) / 10
+    game.mousex, game.mousey = utils.screenToWorld(love.mouse.getX(), love.mouse.getY())
 
     game.world:update(dt)
     game.map:update(dt)
@@ -151,8 +153,8 @@ function love.draw()
     love.graphics.setFont(fonts.droidsans[16])
 
     for k,v in pairs(game.background) do
-        local x = game.centerx * v.parallax - v.x
-        local y = game.centery * v.parallax - v.y
+        local x = game.camerax * v.parallax - v.x
+        local y = game.cameray * v.parallax - v.y
         if x > 0 and y > 0 and x < love.window:getWidth() and y < love.window:getHeight() then
             love.graphics.setColor(v.r, v.g, v.b, v.parallax * 800)
             love.graphics.point(x, y)
@@ -161,7 +163,8 @@ function love.draw()
 
 
     love.graphics.push()
-    love.graphics.translate(math.floor(game.centerx) + .5, math.floor(game.centery) + .5)
+    love.graphics.translate(math.floor(game.camerax) + .5 + love.window:getWidth() / 2, math.floor(game.cameray) + .5 + love.window:getHeight()/2)
+    love.graphics.scale(game.zoom)
         for k,v in pairs(game.particles) do
             love.graphics.setColor(255, 255, 255)
             v:draw()
@@ -214,6 +217,12 @@ end
 
 function love.mousepressed(x, y, but)
     game.mousepressed[but] = true
+
+    if but == "wu" then
+        game.zoomtarget = game.zoomtarget * 1.05
+    elseif but == "wd" then
+        game.zoomtarget = game.zoomtarget * 0.95
+    end
 end
 function love.mousereleased(x, y, but)
     game.mousereleased[but] = true
