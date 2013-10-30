@@ -6,7 +6,6 @@ StaticDebris = class("StaticDebris", Entity)
 --
 -- @param vertices  A table of vertices
 --
--- @returns nil     Nothing
 function StaticDebris:initialize(...)
     local vertices = {...}
 
@@ -39,14 +38,13 @@ end
 --
 -- @param dt        Delta time
 --
--- @returns nil     Nothing
 function StaticDebris:update(dt)
     if not editor.active then
         self.mouseover = false
         return
     end
 
-    self.mouseover = editor.active and self.fixture:testPoint(game.mousex, game.mousey)
+    self.mouseover = editor.active and self.fixture:testPoint(game.mousex, game.mousey) and not ui.mouseover
 
     -- moving
     if self.mouseover and game.mousepressed["l"] then
@@ -63,7 +61,7 @@ function StaticDebris:update(dt)
     end
 
     -- rotating
-    if self.mouseover and game.mousepressed["r"] then
+    if self.mouseover and game.mousepressed["m"] then
         self.rotating = true
         local dx = game.mousex - self.body:getX()
         local dy = game.mousey - self.body:getY()
@@ -75,9 +73,18 @@ function StaticDebris:update(dt)
 
         self.body:setAngle((math.atan2(dy, dx) - self.rotateang) % (math.pi * 2))
 
-        if game.mousereleased["r"] then
+        if game.mousereleased["m"] then
             self.rotating = false
         end
+    end
+
+    -- context menu
+    if self.mouseover and game.mousepressed["r"] then
+        self.menu = UIMenu:new()
+        self.menu:addItem("Delete", function () self:destroy() end)
+        self.menu:show(love.mouse.getX(), love.mouse.getY())
+    elseif self.menu and game.mousereleased["r"] then
+        self.menu:finish()
     end
 end
 
@@ -86,7 +93,6 @@ end
 -- StaticDebris:draw
 -- Draws an outlined polygon.
 --
--- @returns nil     Nothing
 function StaticDebris:draw()
     if self.mouseover then love.graphics.setColor(self.editColor)
                       else love.graphics.setColor(255, 255, 255) end

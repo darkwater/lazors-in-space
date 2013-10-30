@@ -7,7 +7,6 @@ Ship = class("Ship", CircleEntity)
 -- @param x         X position
 -- @param y         Y position
 --
--- @returns nil     Nothing
 function Ship:initialize(x, y)
     Entity.initialize(self, x, y, "dynamic", love.physics.newCircleShape(15))
     self.speed = 500
@@ -33,7 +32,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function Ship:update(dt)
     local mx, my = 0, 0
     my = my + (love.keyboard.isDown("w") and -1 or 0)
@@ -77,7 +75,6 @@ end
 -- @param ent       The entity collided with
 -- @param contact   The contact object of the collision
 --
--- @returns nil     Nothing
 function Ship:impact(ent, contact)
     local hp = ent.damage or 0
 
@@ -92,7 +89,6 @@ end
 -- Ship:draw
 -- Draws the ship.
 --
--- @returns nil     Nothing
 function Ship:draw()
     love.graphics.setColor(255, 50, 50) -- temporary
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius(), self.shape:getRadius())
@@ -108,7 +104,6 @@ end
 -- @param ang       The angle of the direction (radians)
 -- @param speedMul  Speed multiplier, 1 is normal speed
 --
--- @returns nil     Nothing
 function Ship:moveInDirection(ang, speedMul)
     if not speedMul then speedMul = 1 end
 
@@ -122,7 +117,6 @@ end
 --
 -- @param ang       The angle of the direction (radians)
 --
--- @returns nil     Nothing
 function Ship:aimInDirection(ang)
     self.body:setAngle(ang)
 end

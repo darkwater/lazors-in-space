@@ -7,7 +7,6 @@ BulletImpact = class("BulletImpact")
 -- @param x         X position
 -- @param y         Y position
 --
--- @returns nil     Nothing
 function BulletImpact:initialize(x, y)
     self.x          = x
     self.y          = y
@@ -24,7 +23,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function BulletImpact:update(dt)
     self.life = self.life + dt
     if self.life > 0.2 then
@@ -37,7 +35,6 @@ end
 -- BulletImpact:draw
 -- Draws the bullet impact effect.
 --
--- @returns nil     Nothing
 function BulletImpact:draw()
     love.graphics.setColor(255, 250, 240, 200)
 
@@ -56,7 +53,6 @@ end
 -- BulletImpact:destroy
 -- Destroys the effect.
 --
--- @returns nil     Nothing
 function BulletImpact:destroy()
     game.particles[self.particleid] = nil
     self = nil

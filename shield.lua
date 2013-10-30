@@ -8,7 +8,6 @@ Shield = class("Shield", Entity)
 -- @param size      Radius of the shield
 -- @param max       Maximum energy of the shield
 --
--- @returns nil     Nothing
 function Shield:initialize(body, size, max)
     self.max = max
     self.level = max
@@ -21,7 +20,6 @@ end
 -- Shield:update
 -- Updates the shield
 --
--- @returns nil     Nothing
 function Shield:update(dt)
     self.level = math.min(self.max, self.level + dt / 5)
 end
@@ -31,7 +29,6 @@ end
 -- Shield:draw
 -- Draws an outlined circle, you should override this in a subclass.
 --
--- @returns nil     Nothing
 function Shield:draw()
     love.graphics.setColor(200, 200, 200, 150)
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size - 2, 30)
@@ -61,7 +58,6 @@ end
 --
 -- @param hp        Amount of damage to subtract
 --
--- @returns nil     Nothing
 function Shield:takeDamage(hp)
     if not hp then return end 
 

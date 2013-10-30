@@ -11,7 +11,6 @@ EntitySpawner = class("EntitySpawner")
 -- @param interval  Interval between spawning. Also accepts a table {min, max} for randomized intervals
 -- @param amount    Amount of entities to spawn. Also accepts a table {min, max} for randomized amount
 --
--- @returns nil     Nothing
 function EntitySpawner:initialize(x, y, entity, params, interval, amount)
     if type(interval) == "number" then interval = {interval, interval} end
     if type(amount) == "number" then amount = {amount, amount} end
@@ -33,7 +32,6 @@ end
 -- EntitySpawner:update
 -- Spawns an entity if needed.
 --
--- @returns nil     Nothing
 function EntitySpawner:update(dt)
     if game.time >= self.nextFire then
         for i=1, math.random(unpack(self.amount)) do
@@ -49,7 +47,6 @@ end
 -- EntitySpawner:draw
 -- Does nothing.
 --
--- @returns nil     Nothing
 function EntitySpawner:draw()
 
 end

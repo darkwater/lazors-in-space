@@ -6,7 +6,6 @@ MapBoundary = class("MapBoundary", Entity)
 --
 -- @param vertices  A table of vertices
 --
--- @returns nil     Nothing
 function MapBoundary:initialize(...)
     local vertices = {...}
     
@@ -19,7 +18,6 @@ end
 -- MapBoundary:draw
 -- Draws an outlined polygon.
 --
--- @returns nil     Nothing
 function MapBoundary:draw()
     love.graphics.polygon("line", unpack(self.vertices))
 end

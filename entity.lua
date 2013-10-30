@@ -9,7 +9,6 @@ Entity = class("Entity")
 -- @param bodyType  "statis", "dynamic" or "kinematic"
 -- @param shape     Shape, using love.physics.new*Shape()
 --
--- @returns nil     Nothing
 function Entity:initialize(x, y, bodyType, shape)
     self.x        = x
     self.y        = y
@@ -26,7 +25,6 @@ end
 -- Entity:update
 -- Does nothing by default, override this in a subclass.
 --
--- @returns nil     Nothing
 function Entity:update()
     
 end
@@ -36,7 +34,6 @@ end
 -- Entity:draw
 -- Does nothing by default, override this in a subclass.
 --
--- @returns nil     Nothing
 function Entity:draw()
     
 end
@@ -49,7 +46,6 @@ end
 -- @param ent       The entity collided with
 -- @param contact   The contact object of the collision
 --
--- @returns nil     Nothing
 function Entity:impact(ent, contact)
 
 end
@@ -59,7 +55,6 @@ end
 -- Entity:destroy
 -- Destroys the entity.
 --
--- @returns nil     Nothing
 function Entity:destroy()
     self.body:destroy()
     game.objects[self.objectid] = nil

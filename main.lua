@@ -5,6 +5,7 @@ function love.load()
     require("json")
     require("constants")
     require("utils")
+    require("ui-menu")
     require("entity")
     require("map-boundary")
     require("circle-entity")
@@ -99,6 +100,24 @@ function love.load()
         require("edit-tools")
     ----------------
 
+    --== UI ==--
+        ui = {}
+        ui.elements = {}
+        ui.nextId = 1
+
+        ui.add = function (item)
+            local id = ui.nextId
+            ui.nextId = ui.nextId + 1
+            ui.elements[id] = item
+            return id
+        end
+        ui.remove = function (id)
+            if ui.elements[id] then
+                ui.elements[id] = nil
+            end
+        end
+    ----------------
+
     --== Sounds ==--
         local soundsToLoad = { {"player_shoot", "ogg", "static"}, {"enemy_hit", "ogg", "static"}, {"bullet_hit", "ogg", "static"}, {"player_hit", "ogg", "static"} }
         sounds = {}
@@ -147,6 +166,17 @@ function love.update(dt)
 
 
     end
+
+
+    --=# UI #=--
+
+
+    ui.mouseover = false
+    for k,v in pairs(ui.elements) do
+        if v:update() then
+            ui.mouseover = true
+        end
+    end
 end
 
 function love.draw()
@@ -181,19 +211,29 @@ function love.draw()
     if editor.active then
 
 
-    love.graphics.setColor(210, 220, 250)
-    love.graphics.setFont(fonts.droidsansbold[14])
-    love.graphics.print("Editor mode", 10, 10)
+        love.graphics.setColor(210, 220, 250)
+        love.graphics.setFont(fonts.droidsansbold[14])
+        love.graphics.print("Editor mode", 10, 10)
 
-    
-    editor.tools.draw()
+        
+        editor.tools.draw()
 
 
     else
+
         love.graphics.setColor(210, 220, 250, 150)
         love.graphics.setFont(fonts.droidsans[14])
         love.graphics.print("Press F10 to enter editor mode", 10, 10)
+
     end
+    --=# UI #=--
+
+
+    for k,v in pairs(ui.elements) do
+        v:draw()
+    end
+
+
     --=# Cleanup #=--
 
     for k,v in pairs(game.mousepressed) do

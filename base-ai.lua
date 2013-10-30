@@ -7,7 +7,6 @@ BaseAI = class("BaseAI", CircleEntity)
 -- @param x         X position
 -- @param y         Y position
 --
--- @returns nil     Nothing
 function BaseAI:initialize(x, y)
     if editor.active then return false end
 
@@ -39,7 +38,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function BaseAI:update(dt)
     if editor.active then self:destroy() return end
 
@@ -66,7 +64,6 @@ end
 -- BaseAI:draw
 -- Draws the BaseAI.
 --
--- @returns nil     Nothing
 function BaseAI:draw()
     if self.shield:isEmpty() then
         love.graphics.setColor(200, 200, 200)
@@ -85,7 +82,6 @@ end
 -- @param ent       The entity collided with
 -- @param contact   The contact object of the collision
 --
--- @returns nil     Nothing
 function BaseAI:impact(ent, contact)
     local hp = ent.damage or 0
     if hp > 0 then
@@ -107,7 +103,6 @@ end
 -- @param ang       The angle of the direction (radians)
 -- @param speedMul  Speed multiplier, 1 is normal speed
 --
--- @returns nil     Nothing
 function BaseAI:moveInDirection(ang, speedMul)
     if not speedMul then speedMul = 1 end
 
@@ -121,7 +116,6 @@ end
 --
 -- @param ang       The angle of the direction (radians)
 --
--- @returns nil     Nothing
 function BaseAI:aimInDirection(ang)
     self.body:setAngle(ang)
 end

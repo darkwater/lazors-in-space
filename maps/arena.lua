@@ -4,7 +4,6 @@ Arena = class("Arena", Map)
 -- Arena:initialize
 -- The base class for every map.
 --
--- @returns nil     Nothing
 function Arena:initialize()
     self:loadData([=[
 
@@ -32,7 +31,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function Arena:update(dt)
 
 end

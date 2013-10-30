@@ -10,7 +10,6 @@ Bullet = class("Bullet", Entity)
 -- @param force     Force of the bullet
 -- @param colgroup  Collision group of the bullet
 --
--- @returns nil     Nothing
 function Bullet:initialize(x, y, ang, speed, colgroup)
     Entity.initialize(self, x, y, "dynamic", love.physics.newPolygonShape(-8,-2 , 8,-2, 8,2 , -8,2))
     self.body:setAngle(ang)
@@ -31,7 +30,6 @@ end
 -- Bullet:impact
 -- Gets called on impact. This will destroy the bullet.
 --
--- @returns nil     Nothing
 function Bullet:impact()
     BulletImpact:new(self.body:getX(), self.body:getY())
     sounds.play("bullet_hit")
@@ -43,7 +41,6 @@ end
 -- Bullet:update
 -- Updates the bullet.
 --
--- @returns nil     Nothing
 function Bullet:update()
     -- self.body:applyForce(self.xspeed, self.yspeed)
 end
@@ -53,7 +50,6 @@ end
 -- Bullet:draw
 -- Draws the bullet.
 --
--- @returns nil     Nothing
 function Bullet:draw()
     love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 end

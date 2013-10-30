@@ -4,7 +4,6 @@ Map = class("Map")
 -- Map:initialize
 -- The base class for every map.
 --
--- @returns nil     Nothing
 function Map:initialize()
     
 end
@@ -16,7 +15,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function Map:update()
     
 end
@@ -28,7 +26,6 @@ end
 --
 -- @param dt        Time passed since last frame
 --
--- @returns nil     Nothing
 function Map:loadData(data)
     local inBrackets = false
     local inComment  = false
