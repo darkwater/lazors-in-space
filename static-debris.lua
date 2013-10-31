@@ -44,16 +44,16 @@ function StaticDebris:update(dt)
         return
     end
 
-    self.mouseover = editor.active and self.fixture:testPoint(game.mousex, game.mousey) and not ui.mouseover
+    self.mouseover = editor.active and self.fixture:testPoint(editor.worldmousex, editor.worldmousey) and not ui.mouseover
 
     -- moving
     if self.mouseover and game.mousepressed["l"] then
         self.grabbed = true
-        self.grabx = game.mousex - self.body:getX()
-        self.graby = game.mousey - self.body:getY()
+        self.grabx = editor.worldmousex - self.body:getX()
+        self.graby = editor.worldmousey - self.body:getY()
     elseif self.grabbed then
-        self.body:setX(game.mousex - self.grabx)
-        self.body:setY(game.mousey - self.graby)
+        self.body:setX(editor.worldmousex - self.grabx)
+        self.body:setY(editor.worldmousey - self.graby)
 
         if game.mousereleased["l"] then
             self.grabbed = false
@@ -63,13 +63,13 @@ function StaticDebris:update(dt)
     -- rotating
     if self.mouseover and game.mousepressed["m"] then
         self.rotating = true
-        local dx = game.mousex - self.body:getX()
-        local dy = game.mousey - self.body:getY()
+        local dx = editor.worldmousex - self.body:getX()
+        local dy = editor.worldmousey - self.body:getY()
 
         self.rotateang = math.atan2(dy, dx) - self.body:getAngle()
     elseif self.rotating then
-        local dx = game.mousex - self.body:getX()
-        local dy = game.mousey - self.body:getY()
+        local dx = editor.worldmousex - self.body:getX()
+        local dy = editor.worldmousey - self.body:getY()
 
         self.body:setAngle((math.atan2(dy, dx) - self.rotateang) % (math.pi * 2))
 
@@ -97,5 +97,5 @@ function StaticDebris:draw()
     if self.mouseover then love.graphics.setColor(self.editColor)
                       else love.graphics.setColor(255, 255, 255) end
 
-    love.graphics.polygon((self.mouseover and not self.grabbed) and "fill" or "line", self.body:getWorldPoints(self.shape:getPoints()))
+    love.graphics.polygon((self.mouseover and not self.grabbed and not self.rotatingA) and "fill" or "line", self.body:getWorldPoints(self.shape:getPoints()))
 end

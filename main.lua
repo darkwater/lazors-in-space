@@ -26,11 +26,14 @@ function love.load()
         fonts.droidsans[16] = love.graphics.newFont("fonts/DroidSans.ttf", 16)
         fonts.droidsansbold = {}
         fonts.droidsansbold[14] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 14)
+        fonts.droidsansbold[24] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 24)
+        fonts.droidsansbold[48] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 48)
     -------------------
 
     --== Game ==--
         game = {}
         game.time = 0
+        game.over = false
         game.world = love.physics.newWorld(0, 0, true)
         game.mousepressed = {}
         game.mousereleased = {}
@@ -97,6 +100,10 @@ function love.load()
     --== Editor ==--
         editor = {}
         editor.active = false
+        editor.mousex = 0
+        editor.mousey = 0
+        editor.worldmousex = 0
+        editor.worldmousey = 0
         require("edit-tools")
     ----------------
 
@@ -134,6 +141,8 @@ function love.load()
 end
 
 function love.update(dt)
+    if game.over then return end
+
     game.time = game.time + dt
     if game.time - dt < math.floor(game.time) then
         love.window.setTitle(love.timer.getFPS())
@@ -180,6 +189,17 @@ function love.update(dt)
 end
 
 function love.draw()
+    if game.over then
+        love.graphics.setColor(210, 220, 250)
+
+        love.graphics.setFont(fonts.droidsansbold[48])
+        love.graphics.printf("GAME OVER", 0, love.graphics.getHeight() / 2 - 50, love.graphics.getWidth(), "center")
+
+        love.graphics.setFont(fonts.droidsansbold[24])
+        love.graphics.printf("You are dead", 0, love.graphics.getHeight() / 2 + 10, love.graphics.getWidth(), "center")
+        return
+    end
+
     love.graphics.setFont(fonts.droidsans[16])
 
     for k,v in pairs(game.background) do

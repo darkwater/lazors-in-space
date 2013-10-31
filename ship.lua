@@ -79,8 +79,13 @@ function Ship:impact(ent, contact)
     local hp = ent.damage or 0
 
     if hp > 0 then
-        self.shield:takeDamage(hp)
         sounds.play("player_hit")
+
+        if not self.shield:isEmpty() then
+            self.shield:takeDamage(hp)
+        else
+            game.over = true
+        end
     end
 end
 

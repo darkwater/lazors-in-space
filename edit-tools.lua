@@ -5,6 +5,7 @@ editor.tools.y = 70
 editor.tools.width = 200
 editor.tools.height = 40
 editor.tools.hovering = 0
+editor.tools.gridsize = 10
 
 table.insert(editor.tools.tools, require("edit-tools-static-debris"))
 table.insert(editor.tools.tools, require("edit-tools-map-boundary"))
@@ -13,6 +14,11 @@ table.insert(editor.tools.tools, require("edit-tools-map-boundary"))
 editor.tools.update = function (dt)
     local mousex = love.mouse.getX()
     local mousey = love.mouse.getY()
+    editor.mousex = math.floor(mousex / editor.tools.gridsize + 0.5) * editor.tools.gridsize
+    editor.mousey = math.floor(mousey / editor.tools.gridsize + 0.5) * editor.tools.gridsize
+    editor.worldmousex = math.floor(game.mousex / editor.tools.gridsize + 0.5) * editor.tools.gridsize
+    editor.worldmousey = math.floor(game.mousey / editor.tools.gridsize + 0.5) * editor.tools.gridsize
+    -- editor.worldmousex, editor.worldmousey = utils.screenToWorld(editor.mousex, editor.mousey)
 
     if editor.tools.active > 0 then
         local v = editor.tools.tools[editor.tools.active]
@@ -87,4 +93,6 @@ editor.tools.draw = function ()
         end
 
     end
+
+    love.graphics.printf("Grid\n" .. editor.tools.gridsize, love.graphics.getWidth() - 100, 10, 100, "center")
 end
