@@ -5,7 +5,6 @@ function love.load()
     require("json")
     require("constants")
     require("utils")
-    require("ui-menu")
     require("entity")
     require("map-boundary")
     require("circle-entity")
@@ -97,34 +96,6 @@ function love.load()
         end --[[ endContact ]] --[[ preSolve ]] --[[ postSolve ]] )
     --------------
 
-    --== Editor ==--
-        editor = {}
-        editor.active = false
-        editor.mousex = 0
-        editor.mousey = 0
-        editor.worldmousex = 0
-        editor.worldmousey = 0
-        require("edit-tools")
-    ----------------
-
-    --== UI ==--
-        ui = {}
-        ui.elements = {}
-        ui.nextId = 1
-
-        ui.add = function (item)
-            local id = ui.nextId
-            ui.nextId = ui.nextId + 1
-            ui.elements[id] = item
-            return id
-        end
-        ui.remove = function (id)
-            if ui.elements[id] then
-                ui.elements[id] = nil
-            end
-        end
-    ----------------
-
     --== Sounds ==--
         local soundsToLoad = { {"player_shoot", "ogg", "static"}, {"enemy_hit", "ogg", "static"}, {"bullet_hit", "ogg", "static"}, {"player_hit", "ogg", "static"} }
         sounds = {}
@@ -164,27 +135,6 @@ function love.update(dt)
 
     for k,v in pairs(game.objects) do
         v:update(dt)
-    end
-
-
-    --=# Editor #=--
-    if editor.active then
-
-
-    editor.tools.update(dt)
-
-
-    end
-
-
-    --=# UI #=--
-
-
-    ui.mouseover = false
-    for k,v in pairs(ui.elements) do
-        if v:update() then
-            ui.mouseover = true
-        end
     end
 end
 
@@ -227,33 +177,6 @@ function love.draw()
     love.graphics.pop()
 
 
-    --=# Editor #=--
-    if editor.active then
-
-
-        love.graphics.setColor(210, 220, 250)
-        love.graphics.setFont(fonts.droidsansbold[14])
-        love.graphics.print("Editor mode", 10, 10)
-
-        
-        editor.tools.draw()
-
-
-    else
-
-        love.graphics.setColor(210, 220, 250, 150)
-        love.graphics.setFont(fonts.droidsans[14])
-        love.graphics.print("Press F10 to enter editor mode", 10, 10)
-
-    end
-    --=# UI #=--
-
-
-    for k,v in pairs(ui.elements) do
-        v:draw()
-    end
-
-
     --=# Cleanup #=--
 
     for k,v in pairs(game.mousepressed) do
@@ -269,20 +192,17 @@ function love.keypressed(key)
         love.event.quit()
         return
     end
-
-    if key == "f10" then
-        editor.active = not editor.active
-    end
 end
 
 function love.mousepressed(x, y, but)
     game.mousepressed[but] = true
 
-    if but == "wu" then
-        game.zoomtarget = game.zoomtarget * 1.05
-    elseif but == "wd" then
-        game.zoomtarget = game.zoomtarget * 0.95
-    end
+    -- Zoom is broken; don't use it
+    -- if but == "wu" then
+    --     game.zoomtarget = game.zoomtarget * 1.05
+    -- elseif but == "wd" then
+    --     game.zoomtarget = game.zoomtarget * 0.95
+    -- end
 end
 function love.mousereleased(x, y, but)
     game.mousereleased[but] = true

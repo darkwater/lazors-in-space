@@ -52,7 +52,7 @@ function Ship:update(dt)
     end
 
 
-    if not editor.active and love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
+    if love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
         self.nextFire = love.timer.getTime() + self.fireInterval
 
         local ang = self.body:getAngle()-- + math.random(-self.accuracy, self.accuracy) / 100
