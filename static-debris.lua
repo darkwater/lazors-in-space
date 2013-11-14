@@ -7,24 +7,9 @@ StaticDebris = class("StaticDebris", Entity)
 -- @param vertices  A table of vertices
 --
 function StaticDebris:initialize(data)
-    local vertices = data.points
+    self.vertices = data.points
 
-    -- Decide X/Y
-    local xt,  yt    = {}, {}
-    local odd        = true
-    local sumx, sumy = 0, 0
-    for k,v in pairs(vertices) do   table.insert(odd and xt or yt, v)  odd = not odd    end
-    for k,v in pairs(xt) do         sumx = sumx + v                                     end
-    for k,v in pairs(yt) do         sumy = sumy + v                                     end
-    local x = sumx / #xt
-    local y = sumy / #yt
-
-    -- Fix vertices
-    local odd = true
-    for k,v in pairs(vertices) do   vertices[k] = v - (odd and x or y)  odd = not odd   end
-
-
-    Entity.initialize(self, x, y, "static", love.physics.newPolygonShape(unpack(vertices)))
+    Entity.initialize(self, 0, 0, "static", love.physics.newChainShape(true, unpack(self.vertices)))
 
     self.editColor = { math.random(180,250), math.random(180,250), math.random(180,250) }
     self.grabbed = false
@@ -34,7 +19,7 @@ end
 
 ---
 -- StaticDebris:update
--- Updates the StaticDebris, used for the editor.
+-- Updates the StaticDebris, currently does nothing.
 --
 -- @param dt        Delta time
 --
@@ -48,5 +33,5 @@ end
 -- Draws an outlined polygon.
 --
 function StaticDebris:draw()
-    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+    love.graphics.polygon("line", self.vertices)
 end

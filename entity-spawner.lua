@@ -11,16 +11,15 @@ EntitySpawner = class("EntitySpawner")
 -- @param interval  Interval between spawning. Also accepts a table {min, max} for randomized intervals
 -- @param amount    Amount of entities to spawn. Also accepts a table {min, max} for randomized amount
 --
-function EntitySpawner:initialize(x, y, entity, params, interval, amount)
-    if type(interval) == "number" then interval = {interval, interval} end
-    if type(amount) == "number" then amount = {amount, amount} end
+function EntitySpawner:initialize(data)
+    for k,v in pairs(data) do print(k,v) end
 
-    self.x = x
-    self.y = y
-    self.entity = entity
-    self.params = params
-    self.interval = interval
-    self.amount = amount
+    self.x = data.x
+    self.y = data.y
+    self.entity = data.type
+    self.params = data.params
+    self.interval = data.interval
+    self.amount = data.amount
 
     self.objectid = game.addObject(self)
 
