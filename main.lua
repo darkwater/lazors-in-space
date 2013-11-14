@@ -15,7 +15,6 @@ function love.load()
     require("base-ai")
     require("entity-spawner")
     require("map")
-    require("maps.arena")
     require("ship")
 
     --== Interface ==--
@@ -81,8 +80,10 @@ function love.load()
             end
         --------------------
 
+        game.map = Map:new()
+        game.map:loadMap("arena.map")
+
         game.ship = Ship:new(0, 0)
-        game.map = Arena:new()
 
         game.world:setCallbacks( --[[ beginContact ]] function (fix1, fix2, contact)
 
@@ -115,9 +116,6 @@ function love.update(dt)
     if game.over then return end
 
     game.time = game.time + dt
-    if game.time - dt < math.floor(game.time) then
-        love.window.setTitle(love.timer.getFPS())
-    end
 
     game.zoom = game.zoom + (game.zoomtarget - game.zoom) / 10
     game.camerax = game.camerax + ((0 - game.ship.body:getX()) * game.zoom - game.camerax) / 10
@@ -185,6 +183,9 @@ function love.draw()
     for k,v in pairs(game.mousereleased) do
         game.mousereleased[k] = false
     end
+
+    love.graphics.setColor(200, 230, 255, 100)
+    love.graphics.print(love.timer.getFPS(), 10, love.window:getHeight() - 20)
 end
 
 function love.keypressed(key)

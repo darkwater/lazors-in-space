@@ -6,8 +6,8 @@ StaticDebris = class("StaticDebris", Entity)
 --
 -- @param vertices  A table of vertices
 --
-function StaticDebris:initialize(...)
-    local vertices = {...}
+function StaticDebris:initialize(data)
+    local vertices = data.points
 
     -- Decide X/Y
     local xt,  yt    = {}, {}
@@ -48,5 +48,5 @@ end
 -- Draws an outlined polygon.
 --
 function StaticDebris:draw()
-    love.graphics.polygon((self.mouseover and not self.grabbed and not self.rotatingA) and "fill" or "line", self.body:getWorldPoints(self.shape:getPoints()))
+    love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
 end
