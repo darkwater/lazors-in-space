@@ -9,3 +9,7 @@ utils.screenToWorld = function (x, y)
     y = y - game.cameray / game.zoom - love.window:getHeight() / 2
     return x, y
 end
+
+utils.randomAngle = function ()
+    return math.random(1, 360) / 180 * math.pi
+end

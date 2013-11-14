@@ -12,8 +12,6 @@ EntitySpawner = class("EntitySpawner")
 -- @param amount    Amount of entities to spawn. Also accepts a table {min, max} for randomized amount
 --
 function EntitySpawner:initialize(data)
-    for k,v in pairs(data) do print(k,v) end
-
     self.x = data.x
     self.y = data.y
     self.entity = data.type
