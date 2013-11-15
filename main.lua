@@ -1,6 +1,11 @@
 function love.load()
     love.physics.setMeter(64)
 
+    if not love.filesystem.isDirectory("maps") then
+        love.filesystem.createDirectory("maps")
+        love.filesystem.write("maps/arena.map", [=[{"author":"Darkwater","name":"Arena","mapdata":[["StaticDebris",{"points":[-600,0,0,-600,600,0,0,600]}],["StaticDebris",{"points":[-400,-200,-400,200,-600,0]}],["StaticDebris",{"points":[-200,-400,0,-600,200,-400]}],["StaticDebris",{"points":[400,-200,400,200,600,0]}],["StaticDebris",{"points":[-200,400,200,400,0,600]}],["EntitySpawner",{"y":0,"x":-350,"amount":[1,4],"interval":[1,12],"data":[],"type":"Bute"}],["EntitySpawner",{"y":-350,"x":0,"amount":[1,4],"interval":[1,12],"data":[],"type":"Bute"}],["EntitySpawner",{"y":0,"x":350,"amount":[1,4],"interval":[1,12],"data":[],"type":"Bute"}],["EntitySpawner",{"y":350,"x":0,"amount":[1,4],"interval":[1,12],"data":[],"type":"Bute"}],["StaticDebris",{"points":[-400,-200,-200,-200,-200,-400]}],["StaticDebris",{"points":[200,400,400,200,200,200]}],["StaticDebris",{"points":[-400,200,-200,200,-200,400]}],["StaticDebris",{"points":[200,-400,400,-200,200,-200]}]]}]=])
+    end
+
     class = require("middleclass")
     require("json")
     require("constants")

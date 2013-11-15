@@ -17,8 +17,9 @@ function Ship:initialize(x, y)
     self.fixture:setGroupIndex(colgroup.PLAYER)
 
     self.nextFire = 0
-    self.fireInterval = 0.12
-    self.accuracy = 10 -- TODO: change accuracy according to distance of mouse?
+    self.fireInterval = 0.08
+    self.fireSpread = false -- to toggle between double/single shot
+    self.spread = 0.1 -- TODO: change spread according to distance of mouse?
 
     self.damage = 5
 
@@ -55,10 +56,13 @@ function Ship:update(dt)
     if love.mouse.isDown("l") and self.nextFire <= love.timer.getTime() then
         self.nextFire = love.timer.getTime() + self.fireInterval
 
-        local ang = self.body:getAngle()-- + math.random(-self.accuracy, self.accuracy) / 100
-        local dx = math.cos(ang) * 15
-        local dy = math.sin(ang) * 15
-        Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 20, colgroup.PLAYER)
+        if self.fireSpread then
+            self:shoot(self.body:getAngle() + self.spread)
+            self:shoot(self.body:getAngle() - self.spread)
+        else
+            self:shoot(self.body:getAngle())
+        end
+        self.fireSpread = not self.fireSpread
 
         sounds.play("player_shoot")
     end
@@ -124,4 +128,17 @@ end
 --
 function Ship:aimInDirection(ang)
     self.body:setAngle(ang)
+end
+
+
+---
+-- Ship:shoot
+-- Shoots a bullet
+--
+-- @param ang       The direction of the bullet (radians)
+--
+function Ship:shoot(ang)
+    local dx = math.cos(ang) * 15
+    local dy = math.sin(ang) * 15
+    Bullet:new(self.body:getX() + dx, self.body:getY() + dy, ang, 12, colgroup.PLAYER)
 end
