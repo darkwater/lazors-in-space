@@ -42,6 +42,8 @@ function love.load()
         game.mousepressed = {}
         game.mousereleased = {}
 
+        game.points = 0
+
         game.camerax = 0
         game.cameray = 0
         game.zoom = 1
@@ -151,6 +153,9 @@ function love.draw()
 
         love.graphics.setFont(fonts.droidsansbold[24])
         love.graphics.printf("You are dead", 0, love.graphics.getHeight() / 2 + 10, love.graphics.getWidth(), "center")
+
+        love.graphics.printf("Score: " .. game.points, 0, love.graphics.getHeight() / 2 + 50, love.graphics.getWidth(), "center")
+
         return
     end
 
@@ -181,6 +186,10 @@ function love.draw()
     love.graphics.pop()
 
 
+    love.graphics.setColor(200, 230, 255, 200)
+    love.graphics.print("Score: " .. game.points, 10, love.window.getHeight() - 25)
+
+
     --=# Cleanup #=--
 
     for k,v in pairs(game.mousepressed) do
@@ -190,8 +199,6 @@ function love.draw()
         game.mousereleased[k] = false
     end
 
-    love.graphics.setColor(200, 230, 255, 100)
-    love.graphics.print(love.timer.getFPS(), 10, love.window:getHeight() - 20)
 end
 
 function love.keypressed(key)

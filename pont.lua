@@ -20,6 +20,8 @@ function Pont:initialize(x, y)
     self.body:applyLinearImpulse(math.cos(ang) * 10, math.sin(ang) * 10)
 
     self.shield = Shield:new(self.body, 15, 1)
+
+    self.points = 5
 end
 
 

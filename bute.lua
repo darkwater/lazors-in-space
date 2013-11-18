@@ -25,6 +25,8 @@ function Bute:initialize(x, y)
     self:pushInDirection(utils.randomAngle(), 10)
 
     self.shield = Shield:new(self.body, 15, 2)
+
+    self.points = 15
 end
 
 

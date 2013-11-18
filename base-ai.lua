@@ -13,6 +13,7 @@ function BaseAI:initialize(x, y)
     self.fixture:setGroupIndex(colgroup.ENEMY)
 
     self.damage = 1
+    self.points = 0
 end
 
 
@@ -52,6 +53,7 @@ function BaseAI:impact(ent, contact)
             self.shield:takeDamage(hp)
         else
             self:destroy()
+            game.points = game.points + self.points
         end
     end
 end
