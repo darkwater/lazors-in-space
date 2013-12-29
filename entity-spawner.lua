@@ -35,7 +35,11 @@ function EntitySpawner:update(dt)
             _G[self.entity]:new(self.x, self.y)
         end
 
-        self.nextFire = game.time + math.random() * (self.interval[2] - self.interval[1]) + self.interval[1]
+        if self.interval[1] == 0 and self.interval[2] == 0 then
+            self.nextFire = 8999
+        else
+            self.nextFire = game.time + math.random() * (self.interval[2] - self.interval[1]) + self.interval[1]
+        end
     end
 end
 

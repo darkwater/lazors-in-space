@@ -10,10 +10,6 @@ function StaticDebris:initialize(data)
     self.vertices = data.points
 
     Entity.initialize(self, 0, 0, "static", love.physics.newChainShape(true, unpack(self.vertices)))
-
-    self.editColor = { math.random(180,250), math.random(180,250), math.random(180,250) }
-    self.grabbed = false
-    self.rotating = false
 end
 
 

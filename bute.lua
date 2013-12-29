@@ -9,9 +9,9 @@ Bute = class("Bute", BaseAI)
 --
 function Bute:initialize(x, y)
     BaseAI.initialize(self, x, y)
-    self.speed = math.random(5, 10)
+    self.speed = math.random(8, 12)
     -- self.turnSspeed = 500
-    self.body:setLinearDamping(0.1)
+    self.body:setLinearDamping(0)
     self.fixture:setRestitution(1)
 
     self.nextFire = 0
@@ -43,15 +43,16 @@ function Bute:update(dt)
 
     self:aimInDirection(ang)
 
-    if self.nextMove <= love.timer.getTime() then
-        self.nextMove = love.timer.getTime() + math.random(unpack(self.moveInterval)) / 100
+    if self.nextMove <= game.time then
+        self.nextMove = game.time + math.random(unpack(self.moveInterval)) / 100
 
+        self.body:setAwake(false)
         self:pushInDirection(utils.randomAngle(), self.speed)
     end
 
 
-    if self.nextFire <= love.timer.getTime() then
-        self.nextFire = love.timer.getTime() + math.random(unpack(self.fireInterval)) / 100
+    if self.nextFire <= game.time then
+        self.nextFire = game.time + math.random(unpack(self.fireInterval)) / 100
 
         Bullet:new(self.body:getX(), self.body:getY(), self.body:getAngle(), 8, colgroup.ENEMY)
     end
