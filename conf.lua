@@ -4,6 +4,7 @@ function love.conf(t)
     t.url                   = "http://novaember.com/"
     t.identity              = "lis"
     t.version               = "0.9.0"
+    t.window.icon           = "icon.png"
     t.window.width          = 1024
     t.window.height         = 640
     t.window.minwidth       = 100
