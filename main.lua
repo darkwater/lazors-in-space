@@ -12,9 +12,11 @@ function love.load()
     require("json")
     require("constants")
     require("utils")
+    require("event")
     require("entity")
     require("circle-entity")
     require("static-debris")
+    require("trigger")
     require("bullet-impact")
     require("bullet")
     require("shield")
@@ -46,6 +48,12 @@ function love.load()
         game.world = love.physics.newWorld(0, 0, true)
         game.mousepressed = {}
         game.mousereleased = {}
+        game.afterWorldUpdate = {}
+        setmetatable(game.afterWorldUpdate, {
+            __call = function (self, func)
+                table.insert(game.afterWorldUpdate, func)
+            end
+        })
 
         game.points = 0
 
@@ -111,16 +119,25 @@ function love.load()
 
         game.ship = Ship:new(0, 0)
 
-        game.world:setCallbacks( --[[ beginContact ]] function (fix1, fix2, contact)
+        game.world:setCallbacks(function (fix1, fix2, contact) -- beginContact
 
             local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
 
             if not ent1 or not ent2 then return end -- this never happened ok?
 
-            if ent1.impact then ent1:impact(ent2, contact) end
-            if ent2.impact then ent2:impact(ent1, contact) end
+            if ent1.impact and not fix2:isSensor() then ent1:impact(ent2, contact) end
+            if ent2.impact and not fix1:isSensor() then ent2:impact(ent1, contact) end
 
-        end --[[ endContact ]] --[[ preSolve ]] --[[ postSolve ]] )
+        end, function (fix1, fix2, contact) -- endContact
+
+            local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
+
+            if not ent1 or not ent2 then return end -- this never happened ok?
+
+            if ent1.impactEnd and not fix2:isSensor() then ent1:impactEnd(ent2, contact) end
+            if ent2.impactEnd and not fix1:isSensor() then ent2:impactEnd(ent1, contact) end
+
+        end --[[ preSolve ]] --[[ postSolve ]] )
 
     --------------
 
@@ -162,6 +179,11 @@ function love.update(dt)
     game.mousex, game.mousey = utils.screenToWorld(love.mouse.getX(), love.mouse.getY())
 
     game.world:update(dt)
+    for i,v in ipairs(game.afterWorldUpdate) do
+        v()
+    end
+    for k,v in pairs(game.afterWorldUpdate) do game.afterWorldUpdate[k] = nil end
+
     game.map:update(dt)
 
     for k,v in pairs(game.particles) do
@@ -214,11 +236,13 @@ function love.draw()
     love.graphics.scale(game.zoom)
 
         for k,v in pairs(game.particles) do
+            love.graphics.setLineWidth(1)
             love.graphics.setColor(255, 255, 255)
             v:draw()
         end
 
         for k,v in pairs(game.objects) do
+            love.graphics.setLineWidth(1)
             love.graphics.setColor(255, 255, 255)
             v:draw()
         end
