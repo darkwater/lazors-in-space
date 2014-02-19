@@ -3,11 +3,6 @@ math.randomseed(os.time())
 function love.load()
     love.physics.setMeter(64)
 
-    if not love.filesystem.isDirectory("maps") then
-        love.filesystem.createDirectory("maps")
-        love.filesystem.write("maps/arena.map", [=[{"author":"Darkwater","name":"Arena","mapdata":[["StaticDebris",{"points":[-800,0,0,-800,800,0,0,800]}],["StaticDebris",{"points":[-500,-300,-500,-100,-650,-150]}],["StaticDebris",{"points":[-300,-500,-150,-650,-100,-500]}],["StaticDebris",{"points":[650,150,500,300,500,100]}],["StaticDebris",{"points":[-300,500,-100,500,-150,650]}],["EntitySpawner",{"y":0,"x":-650,"amount":[5,5],"interval":[15,15],"data":[],"type":"Bute"}],["EntitySpawner",{"y":-350,"x":350,"amount":[1,2],"interval":[1,10],"data":[],"type":"Pont"}],["EntitySpawner",{"y":350,"x":350,"amount":[1,2],"interval":[1,10],"data":[],"type":"Pont"}],["EntitySpawner",{"y":-650,"x":0,"amount":[5,5],"interval":[15,15],"data":[],"type":"Bute"}],["StaticDebris",{"points":[150,-650,300,-500,100,-500]}],["StaticDebris",{"points":[100,500,300,500,150,650]}],["StaticDebris",{"points":[-650,150,-500,100,-500,300]}],["StaticDebris",{"points":[500,-300,500,-100,650,-150]}],["EntitySpawner",{"y":0,"x":650,"amount":[5,5],"interval":[15,15],"data":[],"type":"Bute"}],["EntitySpawner",{"y":350,"x":-350,"amount":[1,2],"interval":[1,10],"data":[],"type":"Pont"}],["EntitySpawner",{"y":650,"x":0,"amount":[5,5],"interval":[15,15],"data":[],"type":"Bute"}],["EntitySpawner",{"y":-350,"x":-350,"amount":[1,2],"interval":[1,10],"data":[],"type":"Pont"}],["EntitySpawner",{"y":375,"x":-375,"amount":[1,1],"interval":[1,1],"data":[],"type":"Pont"}],["EntitySpawner",{"y":-375,"x":-375,"amount":[1,1],"interval":[1,1],"data":[],"type":"Pont"}],["EntitySpawner",{"y":-375,"x":375,"amount":[1,1],"interval":[1,1],"data":[],"type":"Pont"}],["EntitySpawner",{"y":375,"x":375,"amount":[1,1],"interval":[1,1],"data":[],"type":"Pont"}]]}]=])
-    end
-
     class = require("middleclass")
     require("json")
     require("constants")
@@ -174,8 +169,8 @@ function love.update(dt)
     game.time = game.time + dt
 
     game.zoom = game.zoom + (game.zoomtarget - game.zoom) / 10
-    game.camerax = game.camerax + ((0 - game.ship.body:getX()) * game.zoom - game.camerax) / 10
-    game.cameray = game.cameray + ((0 - game.ship.body:getY()) * game.zoom - game.cameray) / 10
+    game.camerax = game.camerax + ((0 - game.ship.body:getX()) * game.zoom - game.camerax) * dt * 10
+    game.cameray = game.cameray + ((0 - game.ship.body:getY()) * game.zoom - game.cameray) * dt * 10
     game.mousex, game.mousey = utils.screenToWorld(love.mouse.getX(), love.mouse.getY())
 
     game.world:update(dt)
@@ -232,7 +227,7 @@ function love.draw()
 
 
     love.graphics.push()
-    love.graphics.translate(math.floor(game.camerax) + .5 + love.window:getWidth() / 2, math.floor(game.cameray) + .5 + love.window:getHeight()/2)
+    love.graphics.translate(math.floor(game.camerax + love.window:getWidth() / 2) + .5, math.floor(game.cameray + love.window:getHeight()/2) + .5)
     love.graphics.scale(game.zoom)
 
         for k,v in pairs(game.particles) do
@@ -265,6 +260,9 @@ function love.draw()
     for k,v in pairs(game.mousereleased) do
         game.mousereleased[k] = false
     end
+
+
+    love.graphics.print(love.timer.getFPS(), 0, 0)
 
 end
 

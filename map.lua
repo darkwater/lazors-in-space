@@ -51,9 +51,9 @@ function Map:loadMap(name)
     game.objects = {}
 
 
-    if love.filesystem.exists("maps/" .. name .. ".lua") then
+    if love.filesystem.exists(name .. ".lua") then
 
-        local ok, chunk = pcall(love.filesystem.load, "maps/" .. name .. ".lua")
+        local ok, chunk = pcall(love.filesystem.load, name .. ".lua")
 
         if not ok then
 
@@ -74,7 +74,7 @@ function Map:loadMap(name)
     end
 
 
-    local str = love.filesystem.read("maps/" .. name .. ".map")
+    local str = love.filesystem.read(name .. ".map")
     self.mapdata = json.decode(str)
 
     for k,v in pairs(self.mapdata.mapdata) do
