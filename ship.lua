@@ -17,9 +17,9 @@ function Ship:initialize(x, y)
     self.fixture:setGroupIndex(colgroup.PLAYER)
 
     self.nextFire = 0
-    self.fireInterval = 0.2
+    self.fireInterval = 0.1
     self.fireSpread = false -- to toggle between double/single shot
-    self.spread = 0.1 -- TODO: change spread according to distance of mouse?
+    self.spread = 0.15 -- TODO: change spread according to distance of mouse?
 
     self.damage = 5
 
@@ -62,7 +62,7 @@ function Ship:update(dt)
         else
             self:shoot(self.body:getAngle())
         end
-        -- self.fireSpread = not self.fireSpread
+        self.fireSpread = not self.fireSpread
 
         sounds.play("player_shoot")
     end
