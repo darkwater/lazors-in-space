@@ -10,7 +10,27 @@ function love.load()
     require("event")
 
     require("menu")
-    
+
+    for k,v in pairs(love.filesystem.getDirectoryItems("menus")) do
+
+        if love.filesystem.isFile("menus/" .. v) then
+
+            require("menus/" .. v:gsub(".lua", ""))
+
+        end
+
+    end
+
+    for k,v in pairs(love.filesystem.getDirectoryItems("menus/items")) do
+
+        if love.filesystem.isFile("menus/items/" .. v) then
+
+            require("menus/items/" .. v:gsub(".lua", ""))
+
+        end
+
+    end
+
     require("entity")
     require("circle-entity")
     require("static-debris")
@@ -27,9 +47,6 @@ function love.load()
 
     require("interface")
     require("game")
-
-    menu.show = true
-    menu.screen = "mainmenu"
 
     love.graphics.setLineWidth(1.1)
 

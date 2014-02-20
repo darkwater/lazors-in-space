@@ -4,6 +4,7 @@
     fonts.droidsans = {}
     fonts.droidsans[14] = love.graphics.newFont("fonts/DroidSans.ttf", 14)
     fonts.droidsans[16] = love.graphics.newFont("fonts/DroidSans.ttf", 16)
+    fonts.droidsans[24] = love.graphics.newFont("fonts/DroidSans.ttf", 24)
     fonts.droidsansbold = {}
     fonts.droidsansbold[14] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 14)
     fonts.droidsansbold[24] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 24)
@@ -52,7 +53,7 @@
 --== Menu ==--
 
     menu = {}
-    menu.menu = Menu:new()
+    menu.menu = MainMenu:new()
 
     function menu.update(dt)
 

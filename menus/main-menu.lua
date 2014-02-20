@@ -6,6 +6,11 @@ MainMenu = class("MainMenu", Menu)
 --
 function MainMenu:initialize(x, y)
 
+    Menu.initialize(self)
 
+    local test = Button:new()
+    test.label = "Hello world"
+
+    self:addItem(test)
 
 end
