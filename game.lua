@@ -54,26 +54,6 @@
 
 -------------------
 
---== Background ==--
-
-    game.background = {}
-
-    for i = 1, 5000 do
-
-        table.insert(game.background,
-        {
-            parallax = math.random(1, 300) / 10000,
-            x = math.random(-3000, 3000),
-            y = math.random(-2000, 2000),
-            r = math.random(200, 255),
-            g = math.random(200, 255),
-            b = math.random(200, 255)
-        })
-
-    end
-
---------------------
-
 -- Should move this to the Map class
 
     -- game.map = Map:new()
@@ -159,19 +139,6 @@ function game.draw(dt)
     end
 
     love.graphics.setFont(fonts.droidsans[16])
-
-    for k,v in pairs(game.background) do
-
-        local x = game.camerax * v.parallax - v.x
-        local y = game.cameray * v.parallax - v.y
-        if x > 0 and y > 0 and x < love.window:getWidth() and y < love.window:getHeight() then
-
-            love.graphics.setColor(v.r, v.g, v.b, v.parallax * 8000)
-            love.graphics.point(x, y)
-
-        end
-
-    end
 
 
     love.graphics.push()

@@ -29,6 +29,26 @@
 
 ----------------
 
+--== Background ==--
+
+    background = {}
+
+    for i = 1, 3000 do
+
+        table.insert(background,
+        {
+            x = math.random(0, 1000) / 1000,
+            y = math.random(0, 1000) / 1000,
+            r = math.random(200, 255),
+            g = math.random(200, 255),
+            b = math.random(200, 255),
+            a = math.random(10, 180)
+        })
+
+    end
+
+--------------------
+
 --== Menu ==--
 
     menu = {}
@@ -44,6 +64,13 @@
 
 
     function menu.draw()
+
+        for k,v in pairs(background) do
+
+            love.graphics.setColor(v.r, v.g, v.b, v.a)
+            love.graphics.point(v.x * love.window.getWidth(), v.y * love.window.getHeight())
+
+        end
 
         if not menu.menu then return end
 

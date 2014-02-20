@@ -29,7 +29,7 @@ function love.load()
     require("game")
 
     menu.show = true
-    menu.screen = "main"
+    menu.screen = "mainmenu"
 
     love.graphics.setLineWidth(1.1)
 
