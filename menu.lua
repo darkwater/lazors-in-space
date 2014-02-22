@@ -8,7 +8,7 @@ function Menu:initialize()
 
     self.items = {}
 
-    self.nexty = 150
+    self.nexty = 120
 
 end
 
@@ -24,7 +24,7 @@ function Menu:addItem(item)
     item.y = self.nexty
     table.insert(self.items, item)
 
-    self.nexty = self.nexty + 70
+    self.nexty = self.nexty + item.height
 
 end
 
@@ -37,7 +37,11 @@ end
 --
 function Menu:update(dt)
 
-    
+    for k,v in pairs(self.items) do
+
+        v:update(dt)
+
+    end
 
 end
 

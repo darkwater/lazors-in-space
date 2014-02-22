@@ -55,6 +55,9 @@ end
 
 function love.update(dt)
 
+    ui.mousex = love.mouse.getX()
+    ui.mousey = love.mouse.getY()
+
     menu.update(dt)
 
     game.update(dt)
@@ -71,12 +74,12 @@ function love.draw()
 
     --=# Cleanup #=--
 
-    for k,v in pairs(game.mousepressed) do
-        game.mousepressed[k] = false
+    for k,v in pairs(ui.buttonPressed) do
+        ui.buttonPressed[k] = false
     end
 
-    for k,v in pairs(game.mousereleased) do
-        game.mousereleased[k] = false
+    for k,v in pairs(ui.buttonReleased) do
+        ui.buttonReleased[k] = false
     end
 
 
@@ -96,7 +99,7 @@ end
 
 
 function love.mousepressed(x, y, but)
-    game.mousepressed[but] = true
+    ui.buttonPressed[but] = true
 
     -- Zoom is broken; don't use it
     -- if but == "wu" then
@@ -108,5 +111,5 @@ end
 
 
 function love.mousereleased(x, y, but)
-    game.mousereleased[but] = true
+    ui.buttonReleased[but] = true
 end

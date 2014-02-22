@@ -5,8 +5,8 @@
     game.over = false
     game.paused = true
     game.world = love.physics.newWorld(0, 0, true)
-    game.mousepressed = {}
-    game.mousereleased = {}
+    ui.buttonPressed = {}
+    ui.buttonReleased = {}
     game.afterWorldUpdate = {}
     setmetatable(game.afterWorldUpdate, {
         __call = function (self, func)

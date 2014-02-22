@@ -5,10 +5,17 @@
     fonts.droidsans[14] = love.graphics.newFont("fonts/DroidSans.ttf", 14)
     fonts.droidsans[16] = love.graphics.newFont("fonts/DroidSans.ttf", 16)
     fonts.droidsans[24] = love.graphics.newFont("fonts/DroidSans.ttf", 24)
+    fonts.droidsans[36] = love.graphics.newFont("fonts/DroidSans.ttf", 36)
+    fonts.droidsans[48] = love.graphics.newFont("fonts/DroidSans.ttf", 48)
     fonts.droidsansbold = {}
     fonts.droidsansbold[14] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 14)
     fonts.droidsansbold[24] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 24)
     fonts.droidsansbold[48] = love.graphics.newFont("fonts/DroidSans-Bold.ttf", 48)
+    fonts.dejavusansextralight = {}
+    fonts.dejavusansextralight[14] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 14)
+    fonts.dejavusansextralight[24] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 24)
+    fonts.dejavusansextralight[36] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 36)
+    fonts.dejavusansextralight[48] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 48)
 
 ---------------
 
@@ -30,13 +37,28 @@
 
 ----------------
 
+--== General ==--
+
+    ui = {}
+
+    ui.mousex = 0
+    ui.mousey = 0
+
+    ui.width = love.window.getWidth()
+    ui.height = love.window.getHeight()
+
+    ui.buttonPressed = {}
+    ui.buttonReleased = {}
+
+-----------------
+
 --== Background ==--
 
-    background = {}
+    ui.background = {}
 
     for i = 1, 3000 do
 
-        table.insert(background,
+        table.insert(ui.background,
         {
             x = math.random(0, 1000) / 1000,
             y = math.random(0, 1000) / 1000,
@@ -66,7 +88,7 @@
 
     function menu.draw()
 
-        for k,v in pairs(background) do
+        for k,v in pairs(ui.background) do
 
             love.graphics.setColor(v.r, v.g, v.b, v.a)
             love.graphics.point(v.x * love.window.getWidth(), v.y * love.window.getHeight())
