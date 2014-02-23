@@ -15,6 +15,7 @@
     fonts.dejavusansextralight[14] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 14)
     fonts.dejavusansextralight[24] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 24)
     fonts.dejavusansextralight[36] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 36)
+    fonts.dejavusansextralight[42] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 42)
     fonts.dejavusansextralight[48] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 48)
 
 ---------------
@@ -65,7 +66,7 @@
             r = math.random(220, 255),
             g = math.random(220, 255),
             b = math.random(220, 255),
-            a = math.random(10, 100)
+            a = math.random(50, 100)
         })
 
     end
@@ -79,12 +80,38 @@
             r = math.random(230, 255),
             g = math.random(230, 255),
             b = math.random(230, 255),
-            a = math.random(200, 250)
+            a = math.random(150, 200)
         })
 
     end
 
 --------------------
+
+--== Cursor ==--
+
+    ui.cursors = {}
+
+    for k,v in pairs({"arrow", "ibeam", "wait", "hand"}) do
+
+        ui.cursors[v] = love.mouse.getSystemCursor(v)
+
+    end
+
+    ui.currentCursor = "arrow"
+    ui.nextCursor = "arrow" -- Set in update loop
+    love.mouse.setCursor(ui.cursors["arrow"])
+
+    ui.setCursor = function (new)
+
+        if not ui.cursors[new] or ui.currentCursor == new then return false end
+
+        love.mouse.setCursor(ui.cursors[new])
+        ui.currentCursor = new
+        return true
+
+    end
+
+----------------
 
 --== Menu ==--
 
@@ -96,7 +123,16 @@
 
     function menu.update(dt)
 
+        for k,v in pairs(ui.background) do
+
+            v.x = (v.x - dt / 500) % 1
+
+        end
+
         if not menu.menu then return end
+
+        ui.nextCursor = "arrow"
+
 
         menu.menu:update(dt)
 
@@ -108,6 +144,8 @@
         end
 
 
+        ui.setCursor(ui.nextCursor)
+
     end
 
 
@@ -116,7 +154,7 @@
         love.graphics.setPointSize(1)
         for k,v in pairs(ui.background) do
 
-            love.graphics.setColor(v.r, v.g, v.b, v.a)
+            love.graphics.setColor(v.r, v.g, v.b, v.a + math.sin(v.r + time * 4) * 30)
             love.graphics.point(math.floor(v.x * love.window.getWidth()), math.floor(v.y * love.window.getHeight()))
 
         end
@@ -131,7 +169,7 @@
 
         love.graphics.push()
             love.graphics.translate(ui.width / 2, ui.height / 2)
-            love.graphics.scale(1 + menu.menuTransition)
+            love.graphics.scale(1 + menu.menuTransition * 0.4)
 
             love.graphics.setColor(255, 255, 255, 255 - 255 * menu.menuTransition)
             love.graphics.draw(menu.menuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)
@@ -142,7 +180,7 @@
 
             love.graphics.push()
                 love.graphics.translate(ui.width / 2, ui.height / 2)
-                love.graphics.scale(menu.menuTransition)
+                love.graphics.scale(menu.menuTransition * 0.3 + 0.7)
 
                 love.graphics.setColor(255, 255, 255, 255 * menu.menuTransition)
                 love.graphics.draw(menu.oldMenuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)

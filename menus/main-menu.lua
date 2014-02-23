@@ -9,15 +9,13 @@ function MainMenu:initialize(x, y)
     Menu.initialize(self)
 
 
-    local campaign = Button:new()
-    campaign.label = "Play Campaign"
-    campaign.submenu = CampaignMenu
-    self:addItem(campaign)
+    local title = Title:new()
+    self:addItem(title)
 
-    local customlevels = Button:new()
-    customlevels.label = "Custom Levels"
-    customlevels.submenu = CustomLevelsMenu
-    self:addItem(customlevels)
+    local play = Button:new()
+    play.label = "Play"
+    play.submenu = PlayMenu
+    self:addItem(play)
 
     local spacer = Spacer:new()
     self:addItem(spacer)

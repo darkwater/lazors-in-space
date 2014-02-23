@@ -7,8 +7,8 @@ function love.conf(t)
     t.window.icon           = "icon.png"
     t.window.width          = 1024
     t.window.height         = 640
-    t.window.minwidth       = 100
-    t.window.minheight      = 100
+    t.window.minwidth       = 320
+    t.window.minheight      = 240
     t.window.fullscreen     = false
     t.window.fullscreentype = "normal"
     t.window.fsaa           = 0

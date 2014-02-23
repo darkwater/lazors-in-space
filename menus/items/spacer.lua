@@ -6,9 +6,6 @@ Spacer = class("Spacer")
 --
 function Spacer:initialize()
 
-    self.x = ui.width / 2
-    self.y = 150
-    self.width = ui.width - 200
     self.height = 50
 
 end
@@ -27,7 +24,7 @@ end
 
 ---
 -- Spacer:draw
--- Draws nothing.
+-- Draw a nothing!
 --
 function Spacer:draw()
     

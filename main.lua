@@ -50,10 +50,14 @@ function love.load()
 
     love.graphics.setLineWidth(1.1)
 
+    time = 0
+
 end
 
 
 function love.update(dt)
+
+    time = time + dt
 
     ui.mousex = love.mouse.getX()
     ui.mousey = love.mouse.getY()
@@ -112,4 +116,12 @@ end
 
 function love.mousereleased(x, y, but)
     ui.buttonReleased[but] = true
+end
+
+
+function love.resize(w, h)
+    ui.width = w
+    ui.height = h
+    
+    menu.menuCanvas = love.graphics.newCanvas(w, h)
 end

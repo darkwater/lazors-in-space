@@ -8,7 +8,7 @@ function Menu:initialize()
 
     self.items = {}
 
-    self.nexty = 120
+    self.nexty = 60
 
 end
 
