@@ -56,16 +56,30 @@
 
     ui.background = {}
 
-    for i = 1, 3000 do
+    for i = 1, 2000 do
 
         table.insert(ui.background,
         {
             x = math.random(0, 1000) / 1000,
             y = math.random(0, 1000) / 1000,
-            r = math.random(200, 255),
-            g = math.random(200, 255),
-            b = math.random(200, 255),
-            a = math.random(10, 180)
+            r = math.random(220, 255),
+            g = math.random(220, 255),
+            b = math.random(220, 255),
+            a = math.random(10, 100)
+        })
+
+    end
+
+    for i = 1, 50 do
+
+        table.insert(ui.background,
+        {
+            x = math.random(0, 1000) / 1000,
+            y = math.random(0, 1000) / 1000,
+            r = math.random(230, 255),
+            g = math.random(230, 255),
+            b = math.random(230, 255),
+            a = math.random(200, 250)
         })
 
     end
@@ -76,6 +90,9 @@
 
     menu = {}
     menu.menu = MainMenu:new()
+    menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
+    menu.menuTransition = 0
+    menu.oldMenuCanvas = nil
 
     function menu.update(dt)
 
@@ -83,21 +100,66 @@
 
         menu.menu:update(dt)
 
+        if menu.menuTransition > 0 then
+            menu.menuTransition = menu.menuTransition - dt * 3
+        end
+        if menu.menuTransition < 0 then
+            menu.menuTransition = 0
+        end
+
+
     end
 
 
     function menu.draw()
 
+        love.graphics.setPointSize(1)
         for k,v in pairs(ui.background) do
 
             love.graphics.setColor(v.r, v.g, v.b, v.a)
-            love.graphics.point(v.x * love.window.getWidth(), v.y * love.window.getHeight())
+            love.graphics.point(math.floor(v.x * love.window.getWidth()), math.floor(v.y * love.window.getHeight()))
 
         end
 
-        if not menu.menu then return end
+        if not menu.menu then return end -- don't have to draw anything else anyway
 
-        menu.menu:draw()
+
+        menu.menuCanvas:clear()
+        love.graphics.setCanvas(menu.menuCanvas)
+            menu.menu:draw()
+        love.graphics.setCanvas()
+
+        love.graphics.push()
+            love.graphics.translate(ui.width / 2, ui.height / 2)
+            love.graphics.scale(1 + menu.menuTransition)
+
+            love.graphics.setColor(255, 255, 255, 255 - 255 * menu.menuTransition)
+            love.graphics.draw(menu.menuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)
+        love.graphics.pop()
+
+
+        if menu.menuTransition > 0 then
+
+            love.graphics.push()
+                love.graphics.translate(ui.width / 2, ui.height / 2)
+                love.graphics.scale(menu.menuTransition)
+
+                love.graphics.setColor(255, 255, 255, 255 * menu.menuTransition)
+                love.graphics.draw(menu.oldMenuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)
+            love.graphics.pop()
+
+        end
+
+    end
+
+
+    function menu.load(new)
+
+        menu.oldMenuCanvas = menu.menuCanvas
+        menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
+        menu.menuTransition = 1
+
+        menu.menu = new:new()
 
     end
 

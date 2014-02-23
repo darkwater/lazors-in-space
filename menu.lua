@@ -17,7 +17,7 @@ end
 -- Menu:addItem
 -- Adds an item to the menu.
 --
--- @param item      An item object to add, usually derived from a Button
+-- @param item      An item object to add, eg. a Button.
 --
 function Menu:addItem(item)
 

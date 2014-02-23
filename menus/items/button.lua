@@ -7,6 +7,7 @@ Button = class("Button")
 function Button:initialize()
 
     self.label = "Do nothing"
+    self.submenu = nil
 
     self.x = ui.width / 2
     self.y = 150
@@ -15,6 +16,8 @@ function Button:initialize()
 
     self.hovering = false
     self.hoverBump = 0
+
+    self.callback = function (self) print("Button " .. self.label .. " has no action!") end
 
 end
 
@@ -84,6 +87,12 @@ end
 --
 function Button:onActivate()
 
-    print(self.label + " activated!")
+    local result = self:callback()
+
+    if self.submenu and not result then
+
+        menu.load(self.submenu)
+
+    end
     
 end

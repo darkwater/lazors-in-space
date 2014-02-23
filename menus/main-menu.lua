@@ -11,10 +11,12 @@ function MainMenu:initialize(x, y)
 
     local campaign = Button:new()
     campaign.label = "Play Campaign"
+    campaign.submenu = CampaignMenu
     self:addItem(campaign)
 
     local customlevels = Button:new()
     customlevels.label = "Custom Levels"
+    customlevels.submenu = CustomLevelsMenu
     self:addItem(customlevels)
 
     local spacer = Spacer:new()
@@ -30,6 +32,9 @@ function MainMenu:initialize(x, y)
 
     local exit = Button:new()
     exit.label = "Exit"
+    exit.callback = function(self)
+        love.event.quit()
+    end
     self:addItem(exit)
 
 end
