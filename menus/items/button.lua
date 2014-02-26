@@ -9,6 +9,8 @@ function Button:initialize()
     self.label = "Do nothing"
     self.submenu = nil
 
+    self.x = 0
+    self.width = ui.width
     self.height = 70
 
     self.disabled = false
@@ -35,7 +37,7 @@ function Button:update(dt)
     end
 
 
-    local nowHovering = not self.disabled and ui.mousey > self.y and ui.mousey <= self.y + self.height
+    local nowHovering = not self.disabled and ui.mousey > self.y and ui.mousey <= self.y + self.height and ui.mousex > self.x and ui.mousex < self.x + self.width
 
     if nowHovering and not self.hovering then
         self:onMouseOver()
@@ -45,7 +47,7 @@ function Button:update(dt)
 
     if self.hovering then
 
-        ui.nextCursor = "hand"
+        ui.cursor = "hand"
 
         if ui.buttonPressed["l"] then
             self:onActivate()
@@ -66,9 +68,9 @@ function Button:draw()
     love.graphics.setFont(fonts.dejavusansextralight[36])
 
     love.graphics.push()
-        love.graphics.translate(math.floor(ui.width / 2), self.y  + self.height / 2)
+        love.graphics.translate(math.floor(self.x + self.width / 2), self.y  + self.height / 2)
         love.graphics.scale(1 + self.hoverBump * 0.2)
-        love.graphics.printf(self.label, -ui.width / 2, -23, ui.width, "center")
+        love.graphics.printf(self.label, -self.width / 2, -23, self.width, "center")
     love.graphics.pop()
     
 end

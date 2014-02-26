@@ -1,0 +1,25 @@
+{
+    "name": "Default sector pack",
+    "sectors": [
+        {
+            "name": "Alpha Sector",
+            "center": [ 80, -90 ],
+            "boundary": [
+                [ -50,  50 ],
+                [  50,  50 ],
+                [  50, -50 ],
+                [ -50, -50 ]
+            ]
+        },
+        {
+            "name": "Beta Sector",
+            "center": [ -80, -90 ],
+            "boundary": [
+                [ -50,  50 ],
+                [  50,  50 ],
+                [  50, -50 ],
+                [ -50, -50 ]
+            ]
+        }
+    ]
+}

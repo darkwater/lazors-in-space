@@ -14,6 +14,7 @@
     fonts.dejavusansextralight = {}
     fonts.dejavusansextralight[14] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 14)
     fonts.dejavusansextralight[24] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 24)
+    fonts.dejavusansextralight[32] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 32)
     fonts.dejavusansextralight[36] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 36)
     fonts.dejavusansextralight[42] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 42)
     fonts.dejavusansextralight[48] = love.graphics.newFont("fonts/DejaVuSans-ExtraLight.ttf", 48)
@@ -98,7 +99,7 @@
     end
 
     ui.currentCursor = "arrow"
-    ui.nextCursor = "arrow" -- Set in update loop
+    ui.cursor = "arrow" -- Set in update loop
     love.mouse.setCursor(ui.cursors["arrow"])
 
     ui.setCursor = function (new)
@@ -119,7 +120,7 @@
     menu.menu = MainMenu:new()
     menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
     menu.menuTransition = 0
-    menu.oldMenuCanvas = nil
+    menu.oldMenuCanvas = love.graphics.newCanvas(1, 1)
 
     function menu.update(dt)
 
@@ -131,20 +132,20 @@
 
         if not menu.menu then return end
 
-        ui.nextCursor = "arrow"
+        ui.cursor = "arrow"
 
 
         menu.menu:update(dt)
 
-        if menu.menuTransition > 0 then
-            menu.menuTransition = menu.menuTransition - dt * 3
+        if menu.menuTransition < 1 then
+            menu.menuTransition = menu.menuTransition + (1 - menu.menuTransition) / (0.08 / dt)
         end
-        if menu.menuTransition < 0 then
-            menu.menuTransition = 0
+        if menu.menuTransition >= 0.99 and menu.menuTransition < 1 or menu.menuTransition > 1 then
+            menu.menuTransition = 1
         end
 
 
-        ui.setCursor(ui.nextCursor)
+        ui.setCursor(ui.cursor)
 
     end
 
@@ -169,20 +170,20 @@
 
         love.graphics.push()
             love.graphics.translate(ui.width / 2, ui.height / 2)
-            love.graphics.scale(1 + menu.menuTransition * 0.4)
+            love.graphics.scale(0.6 + menu.menuTransition * 0.4)
 
-            love.graphics.setColor(255, 255, 255, 255 - 255 * menu.menuTransition)
+            love.graphics.setColor(255, 255, 255, 255 * menu.menuTransition)
             love.graphics.draw(menu.menuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)
         love.graphics.pop()
 
 
-        if menu.menuTransition > 0 then
+        if menu.menuTransition < 1 then
 
             love.graphics.push()
                 love.graphics.translate(ui.width / 2, ui.height / 2)
-                love.graphics.scale(menu.menuTransition * 0.3 + 0.7)
+                love.graphics.scale(1 + menu.menuTransition * 0.4)
 
-                love.graphics.setColor(255, 255, 255, 255 * menu.menuTransition)
+                love.graphics.setColor(255, 255, 255, 255 - 255 * menu.menuTransition)
                 love.graphics.draw(menu.oldMenuCanvas, 0, 0, 0, 1, 1, ui.width / 2, ui.height / 2)
             love.graphics.pop()
 
@@ -195,7 +196,7 @@
 
         menu.oldMenuCanvas = menu.menuCanvas
         menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
-        menu.menuTransition = 1
+        menu.menuTransition = 0
 
         menu.menu = new:new()
 

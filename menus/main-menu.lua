@@ -4,7 +4,7 @@ MainMenu = class("MainMenu", Menu)
 -- MainMenu:initialize
 -- The main menu, presented at startup.
 --
-function MainMenu:initialize(x, y)
+function MainMenu:initialize()
 
     Menu.initialize(self)
 
@@ -14,7 +14,7 @@ function MainMenu:initialize(x, y)
 
     local play = Button:new()
     play.label = "Play"
-    play.submenu = PlayMenu
+    play.submenu = Starmap
     self:addItem(play)
 
     local spacer = Spacer:new()
@@ -22,11 +22,13 @@ function MainMenu:initialize(x, y)
 
     local options = Button:new()
     options.label = "Options"
+    options.submenu = OptionsMenu
     self:addItem(options)
 
-    local about = Button:new()
-    about.label = "About"
-    self:addItem(about)
+    local credits = Button:new()
+    credits.label = "Credits"
+    credits.submenu = CreditsMenu
+    self:addItem(credits)
 
     local exit = Button:new()
     exit.label = "Exit"

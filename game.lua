@@ -98,7 +98,7 @@ function game.update(dt)
     game.zoom = game.zoom + (game.zoomtarget - game.zoom) / 10
     game.camerax = game.camerax + ((0 - game.ship.body:getX()) * game.zoom - game.camerax) * dt * 10
     game.cameray = game.cameray + ((0 - game.ship.body:getY()) * game.zoom - game.cameray) * dt * 10
-    game.mousex, game.mousey = utils.screenToWorld(love.mouse.getX(), love.mouse.getY())
+    game.mousex, game.mousey = util.screenToWorld(love.mouse.getX(), love.mouse.getY())
 
     game.world:update(dt)
     for i,v in ipairs(game.afterWorldUpdate) do

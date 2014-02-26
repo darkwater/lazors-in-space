@@ -6,7 +6,7 @@ function love.load()
     class = require("middleclass")
     require("json")
     require("constants")
-    require("utils")
+    require("util")
     require("event")
 
     require("menu")
@@ -95,10 +95,14 @@ end
 
 
 function love.keypressed(key)
+
     if key == "escape" then
+        
         love.event.quit()
         return
+
     end
+
 end
 
 

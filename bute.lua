@@ -22,7 +22,7 @@ function Bute:initialize(x, y)
 
     self.moveOffset = math.random(-20, 20) / 180 * math.pi
 
-    self:pushInDirection(utils.randomAngle(), 10)
+    self:pushInDirection(util.randomAngle(), 10)
 
     self.shield = Shield:new(self.body, 15, 2)
 
@@ -47,7 +47,7 @@ function Bute:update(dt)
         self.nextMove = game.time + math.random(unpack(self.moveInterval)) / 100
 
         self.body:setAwake(false)
-        self:pushInDirection(utils.randomAngle(), self.speed)
+        self:pushInDirection(util.randomAngle(), self.speed)
     end
 
 
