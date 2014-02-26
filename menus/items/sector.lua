@@ -29,6 +29,8 @@ function Sector:initialize(data)
     self.width = self.maxx - self.minx
     self.height = self.maxy - self.miny
 
+    self.hoverGlow = 0
+
 end
 
 
@@ -59,6 +61,16 @@ function Sector:update(dt, mousex, mousey)
             self:onActivate()
         end
 
+        if self.hoverGlow < 1 then
+
+            self.hoverGlow = math.min(1, self.hoverGlow + dt * 9)
+
+        end
+
+    elseif self.hoverGlow > 0 then
+
+        self.hoverGlow = math.max(0, self.hoverGlow - dt * 7)
+
     end
 
 end
@@ -70,15 +82,16 @@ end
 --
 function Sector:draw()
 
-    love.graphics.setColor(self.disabled and {140, 140, 140} or self.hovering and {250, 250, 250} or {255, 175, 0})
     love.graphics.setFont(fonts.droidsans[24])
 
     love.graphics.push()
         love.graphics.translate(unpack(self.center))
 
+        love.graphics.setColor(self.disabled and {140, 140, 140, 150 + self.hoverGlow * 100} or self.hovering and {250, 250, 250, 150 + self.hoverGlow * 100} or {255, 175, 0, 150 + self.hoverGlow * 100})
         love.graphics.polygon("line", self.boundary)
 
-        love.graphics.printf(self.name, -self.width / 2, -23, self.width, "center")
+        love.graphics.setColor(self.disabled and {140, 140, 140} or self.hovering and {250, 250, 250} or {255, 175, 0})
+        love.graphics.printf(self.name, self.minx, -23, self.width, "center")
 
     love.graphics.pop()
     

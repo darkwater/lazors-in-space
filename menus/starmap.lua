@@ -8,17 +8,17 @@ function Starmap:initialize()
 
     self.buttons = {}
 
-    local more = Button:new()
-    more.label = "Online map"
-    more.width = 300
-    more.x = ui.width - more.width
-    more.y = ui.height - more.height * 2
-    more.submenu = MainMenu
-    table.insert(self.buttons, more)
+    -- local more = Button:new()
+    -- more.label = "Online map"
+    -- more.width = 300
+    -- more.x = ui.width - more.width
+    -- more.y = ui.height - more.height * 2
+    -- more.submenu = MainMenu
+    -- table.insert(self.buttons, more)
 
     local back = Button:new()
     back.label = "Back"
-    back.width = 300
+    back.width = 150
     back.x = ui.width - back.width
     back.y = ui.height - back.height
     back.submenu = MainMenu
