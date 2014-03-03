@@ -9,6 +9,19 @@
                 [  50,  50 ],
                 [  50, -50 ],
                 [ -50, -50 ]
+            ],
+            "levels": [
+                {
+                    "name": "Awakening",
+                    "position": [ 0, 0 ],
+                    "map": "alpha_1a.map",
+                    "lua": [ "alpha_1a.lua" ]
+                },
+                {
+                    "name": "Arena",
+                    "position": [ -220, -150 ],
+                    "map": "arena.map"
+                }
             ]
         },
         {
@@ -19,6 +32,14 @@
                 [  50,  50 ],
                 [  50, -50 ],
                 [ -50, -50 ]
+            ],
+            "levels": [
+                {
+                    "name": "False Beacon",
+                    "position": [ 0, 0 ],
+                    "map": "alpha_1a.map",
+                    "lua": [ "alpha_1a.lua" ]
+                }
             ]
         }
     ]

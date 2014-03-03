@@ -4,7 +4,10 @@ Sector = class("Sector")
 -- Sector:initialize
 -- A sector on the starmap
 --
-function Sector:initialize(data)
+function Sector:initialize(pack, id, data)
+
+    self.pack = pack
+    self.id = id
 
     self.name = data.name
     self.center = data.center
@@ -115,6 +118,6 @@ end
 --
 function Sector:onActivate()
 
-    print("Loading " .. self.name)
+    menu.load(Sectormap, self.pack, self.id)
     
 end

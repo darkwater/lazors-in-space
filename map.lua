@@ -43,17 +43,17 @@ end
 --
 -- @param name      Name of the map
 --
-function Map:loadMap(name)
+function Map:loadMap(pack, map, lua)
 
-    self.mapname = name
+    self.mapname = map
     self.maplogic = nil
 
     game.objects = {}
 
 
-    if love.filesystem.exists(name .. ".lua") then
+    if love.filesystem.exists("content/" .. pack .. "/lua/" .. lua[1]) then
 
-        local ok, chunk = pcall(love.filesystem.load, name .. ".lua")
+        local ok, chunk = pcall(love.filesystem.load, "content/" .. pack .. "/lua/" .. lua[1]) -- TODO: Support multiple lua files
 
         if not ok then
 
@@ -74,7 +74,7 @@ function Map:loadMap(name)
     end
 
 
-    local str = love.filesystem.read(name .. ".map")
+    local str = love.filesystem.read("content/" .. pack .. "/maps/" .. map)
     self.mapdata = json.decode(str)
 
     for k,v in pairs(self.mapdata.mapdata) do

@@ -55,34 +55,39 @@
 
 -------------------
 
--- Should move this to the Map class
+function game.load(pack, sector, level)
 
-    -- game.map = Map:new()
-    -- game.map:loadMap(arg[2] or "content/default/maps/arena")
+    local str = love.filesystem.read("content/" .. pack .. "/info.json")
+    local info = json.decode(str)
+    local level = info.sectors[sector].levels[level]
 
-    -- game.ship = Ship:new(0, 0)
+    game.map = Map:new()
+    game.map:loadMap(pack, level.map, level.lua)
 
-    -- game.world:setCallbacks(function (fix1, fix2, contact) -- beginContact
+    game.ship = Ship:new(0, 0)
 
-    --     local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
+    game.world:setCallbacks(function (fix1, fix2, contact) -- beginContact
 
-    --     if not ent1 or not ent2 then return end -- this never happened ok?
+        local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
 
-    --     if ent1.impact and not fix2:isSensor() then ent1:impact(ent2, contact) end
-    --     if ent2.impact and not fix1:isSensor() then ent2:impact(ent1, contact) end
+        if not ent1 or not ent2 then return end -- this never happened ok?
 
-    -- end, function (fix1, fix2, contact) -- endContact
+        if ent1.impact and not fix2:isSensor() then ent1:impact(ent2, contact) end
+        if ent2.impact and not fix1:isSensor() then ent2:impact(ent1, contact) end
 
-    --     local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
+    end, function (fix1, fix2, contact) -- endContact
 
-    --     if not ent1 or not ent2 then return end -- this never happened ok?
+        local ent1, ent2 = game.objects[(fix1:getUserData())], game.objects[(fix2:getUserData())]
 
-    --     if ent1.impactEnd and not fix2:isSensor() then ent1:impactEnd(ent2, contact) end
-    --     if ent2.impactEnd and not fix1:isSensor() then ent2:impactEnd(ent1, contact) end
+        if not ent1 or not ent2 then return end -- this never happened ok?
 
-    -- end --[[ preSolve ]] --[[ postSolve ]] )
+        if ent1.impactEnd and not fix2:isSensor() then ent1:impactEnd(ent2, contact) end
+        if ent2.impactEnd and not fix1:isSensor() then ent2:impactEnd(ent1, contact) end
 
---
+    end --[[ preSolve ]] --[[ postSolve ]] )
+
+end
+
 
 function game.update(dt)
 

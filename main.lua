@@ -107,6 +107,7 @@ end
 
 
 function love.mousepressed(x, y, but)
+
     ui.buttonPressed[but] = true
 
     -- Zoom is broken; don't use it
@@ -115,17 +116,22 @@ function love.mousepressed(x, y, but)
     -- elseif but == "wd" then
     --     game.zoomtarget = game.zoomtarget * 0.95
     -- end
+
 end
 
 
 function love.mousereleased(x, y, but)
+
     ui.buttonReleased[but] = true
+
 end
 
 
 function love.resize(w, h)
+
     ui.width = w
     ui.height = h
     
     menu.menuCanvas = love.graphics.newCanvas(w, h)
+
 end

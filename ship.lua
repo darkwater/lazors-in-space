@@ -19,7 +19,7 @@ function Ship:initialize(x, y)
     self.nextFire = 0
     self.fireInterval = 0.1
     self.fireSpread = false -- to toggle between double/single shot
-    self.spread = 0.15 -- TODO: change spread according to distance of mouse?
+    self.spread = 0.05 -- TODO: change spread according to distance of mouse?
 
     self.damage = 5
 

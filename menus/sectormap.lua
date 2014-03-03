@@ -1,10 +1,10 @@
-Starmap = class("Starmap")
+Sectormap = class("Sectormap")
 
 ---
--- Starmap:initialize
--- A screen showing the different sectors available.
+-- Sectormap:initialize
+-- A screen showing the different levels available in a sector.
 --
-function Starmap:initialize()
+function Sectormap:initialize(pack, id)
 
     self.buttons = {}
 
@@ -21,25 +21,21 @@ function Starmap:initialize()
     back.width = 150
     back.x = ui.width - back.width
     back.y = ui.height - back.height
-    back.submenu = MainMenu
+    back.submenu = Starmap
     table.insert(self.buttons, back)
 
 
     self.camera = {0, 0}
 
 
-    self.sectors = {}
+    self.levels = {}
 
-    for _,dirname in pairs(love.filesystem.getDirectoryItems("content")) do
+    local str = love.filesystem.read("content/" .. pack .. "/info.json")
+    local info = json.decode(str)
 
-        local str = love.filesystem.read("content/" .. dirname .. "/info.json")
-        local info = json.decode(str)
+    for k,level in pairs(info.sectors[id].levels) do
 
-        for k,sector in pairs(info.sectors) do
-            
-            table.insert(self.sectors, Sector:new(dirname, k, sector))
-
-        end
+        table.insert(self.levels, Level:new(pack, id, k, level))
 
     end
 
@@ -47,12 +43,12 @@ end
 
 
 ---
--- Starmap:update
--- Updates the starmap
+-- Sectormap:update
+-- Updates the Sectormap
 --
-function Starmap:update(dt)
+function Sectormap:update(dt)
 
-    for k,v in pairs(self.sectors) do
+    for k,v in pairs(self.levels) do
 
         v:update(dt, ui.mousex - (math.floor(self.camera[1] + ui.width / 2) + .5), ui.mousey - (math.floor(self.camera[2] + ui.height / 2) + .5))
 
@@ -69,15 +65,15 @@ end
 
 
 ---
--- Starmap:draw
--- Draws the starmap
+-- Sectormap:draw
+-- Draws the Sectormap
 --
-function Starmap:draw()
+function Sectormap:draw()
 
     love.graphics.push()
         love.graphics.translate(math.floor(self.camera[1] + ui.width / 2) + .5, math.floor(self.camera[2] + ui.height / 2) + .5)
 
-        for k,v in pairs(self.sectors) do
+        for k,v in pairs(self.levels) do
 
             v:draw()
 

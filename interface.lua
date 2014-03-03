@@ -121,6 +121,7 @@
     menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
     menu.menuTransition = 0
     menu.oldMenuCanvas = love.graphics.newCanvas(1, 1)
+    menu.hidden = false
 
     function menu.update(dt)
 
@@ -135,7 +136,7 @@
         ui.cursor = "arrow"
 
 
-        menu.menu:update(dt)
+        if not menu.hidden then menu.menu:update(dt) end
 
         if menu.menuTransition < 1 then
             menu.menuTransition = menu.menuTransition + (1 - menu.menuTransition) / (0.08 / dt)
@@ -163,10 +164,14 @@
         if not menu.menu then return end -- don't have to draw anything else anyway
 
 
-        menu.menuCanvas:clear()
-        love.graphics.setCanvas(menu.menuCanvas)
-            menu.menu:draw()
-        love.graphics.setCanvas()
+        if not menu.hidden then
+
+            menu.menuCanvas:clear()
+            love.graphics.setCanvas(menu.menuCanvas)
+                menu.menu:draw()
+            love.graphics.setCanvas()
+
+        end
 
         love.graphics.push()
             love.graphics.translate(ui.width / 2, ui.height / 2)
@@ -192,13 +197,31 @@
     end
 
 
-    function menu.load(new)
+    function menu.load(new, ...)
 
         menu.oldMenuCanvas = menu.menuCanvas
         menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
         menu.menuTransition = 0
 
-        menu.menu = new:new()
+        menu.menu = new:new(...)
+
+    end
+
+
+    function menu.hide()
+
+        menu.oldMenuCanvas = menu.menuCanvas
+        menu.menuCanvas = love.graphics.newCanvas(ui.width, ui.height)
+        menu.menuTransition = 0
+        menu.hidden = true
+
+    end
+
+    function menu.show()
+
+        menu.oldMenuCanvas = love.graphics.newCanvas(ui.width, ui.height)
+        menu.menuTransition = 0
+        menu.hidden = false
 
     end
 

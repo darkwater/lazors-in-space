@@ -6,7 +6,7 @@ Arena = class("Arena")
 --
 function Arena:initialize()
 
-    self.offset = 0
+    print("Hello, world!")
 
 end
 
