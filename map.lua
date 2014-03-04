@@ -51,7 +51,7 @@ function Map:loadMap(pack, map, lua)
     game.objects = {}
 
 
-    if love.filesystem.exists("content/" .. pack .. "/lua/" .. lua[1]) then
+    if lua and love.filesystem.exists("content/" .. pack .. "/lua/" .. lua[1]) then
 
         local ok, chunk = pcall(love.filesystem.load, "content/" .. pack .. "/lua/" .. lua[1]) -- TODO: Support multiple lua files
 

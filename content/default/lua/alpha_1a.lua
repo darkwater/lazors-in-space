@@ -6,8 +6,6 @@ Arena = class("Arena")
 --
 function Arena:initialize()
 
-    print("Hello, world!")
-
 end
 
 
