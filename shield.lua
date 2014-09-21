@@ -9,10 +9,12 @@ Shield = class("Shield", Entity)
 -- @param max       Maximum energy of the shield
 --
 function Shield:initialize(body, size, max)
+
     self.max = max
     self.level = max
     self.size = size
     self.body = body
+
 end
 
 
@@ -21,7 +23,9 @@ end
 -- Updates the shield
 --
 function Shield:update(dt)
+
     self.level = math.min(self.max, self.level + dt / 5)
+
 end
 
 
@@ -30,6 +34,7 @@ end
 -- Draws an outlined circle, you should override this in a subclass.
 --
 function Shield:draw()
+
     love.graphics.setColor(200, 200, 200, 150)
     love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size - 2, 30)
 
@@ -40,15 +45,20 @@ function Shield:draw()
     local x, y = self.body:getX(), self.body:getY()
 
     for i = 0, math.ceil(self.level / self.max * 36) do
-        local theta = i * 10 / 180 * math.pi
+
+        local theta = math.min(i * 10 / 180 * math.pi, self.level / self.max * math.pi * 2)
 
         table.insert(vertices, x + math.cos(theta) * self.size)
         table.insert(vertices, y + math.sin(theta) * self.size)
+
     end
 
-    if #vertices > 3 then
+    if #vertices >= 4 then
+
         love.graphics.line(unpack(vertices))
+
     end
+
 end
 
 
@@ -59,9 +69,11 @@ end
 -- @param hp        Amount of damage to subtract
 --
 function Shield:takeDamage(hp)
+
     if not hp then return end 
 
     self.level = math.max(0, self.level - hp)
+
 end
 
 
@@ -71,5 +83,7 @@ end
 --
 -- @returns bool    True if the shield's level is less than 1, false otherwise
 function Shield:isEmpty()
+
     return self.level < 1
+
 end

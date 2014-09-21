@@ -3,50 +3,50 @@ math.randomseed(os.time())
 function love.load()
     love.physics.setMeter(64)
 
-    class = require("middleclass")
-    require("json")
-    require("constants")
-    require("util")
-    require("event")
+    class = require('middleclass')
+    require('json')
+    require('constants')
+    require('util')
+    require('event')
 
-    require("menu")
+    require('menu')
 
-    for k,v in pairs(love.filesystem.getDirectoryItems("menus")) do
+    for k,v in pairs(love.filesystem.getDirectoryItems('menus')) do
 
-        if love.filesystem.isFile("menus/" .. v) then
+        if v:sub(1, 1) ~= '.' and love.filesystem.isFile('menus/' .. v) then
 
-            require("menus/" .. v:gsub(".lua", ""))
-
-        end
-
-    end
-
-    for k,v in pairs(love.filesystem.getDirectoryItems("menus/items")) do
-
-        if love.filesystem.isFile("menus/items/" .. v) then
-
-            require("menus/items/" .. v:gsub(".lua", ""))
+            require('menus/' .. v:gsub('.lua', ''))
 
         end
 
     end
 
-    require("entity")
-    require("circle-entity")
-    require("static-debris")
-    require("trigger")
-    require("bullet-impact")
-    require("bullet")
-    require("shield")
-    require("base-ai")
-    require("pont")
-    require("bute")
-    require("entity-spawner")
-    require("map")
-    require("ship")
+    for k,v in pairs(love.filesystem.getDirectoryItems('menus/items')) do
 
-    require("interface")
-    require("game")
+        if v:sub(1, 1) ~= '.' and love.filesystem.isFile('menus/items/' .. v) then
+
+            require('menus/items/' .. v:gsub('.lua', ''))
+
+        end
+
+    end
+
+    require('entity')
+    require('circle-entity')
+    require('static-debris')
+    require('trigger')
+    require('bullet-impact')
+    require('bullet')
+    require('shield')
+    require('base-ai')
+    require('pont')
+    require('bute')
+    require('entity-spawner')
+    require('map')
+    require('ship')
+
+    require('interface')
+    require('game')
 
     love.graphics.setLineWidth(1.1)
 
@@ -96,7 +96,7 @@ end
 
 function love.keypressed(key)
 
-    if key == "escape" then
+    if key == 'escape' then
         
         love.event.quit()
         return
@@ -111,9 +111,9 @@ function love.mousepressed(x, y, but)
     ui.buttonPressed[but] = true
 
     -- Zoom is broken; don't use it
-    -- if but == "wu" then
+    -- if but == 'wu' then
     --     game.zoomtarget = game.zoomtarget * 1.05
-    -- elseif but == "wd" then
+    -- elseif but == 'wd' then
     --     game.zoomtarget = game.zoomtarget * 0.95
     -- end
 

@@ -1,3 +1,10 @@
+math.clamp = function (a, x, b)
+
+    return a > x and a or
+           b < x and b or x
+
+end
+
 util = {}
 
 util.distance = function (x1, y1, x2, y2)

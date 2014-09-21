@@ -14,7 +14,7 @@ function Bute:initialize(x, y)
     self.body:setLinearDamping(0)
     self.fixture:setRestitution(1)
 
-    self.nextFire = 0
+    self.nextFire = math.random(200, 800) / 100
     self.fireInterval = {100, 500}
 
     self.nextMove = 0

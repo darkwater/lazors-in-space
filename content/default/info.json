@@ -18,14 +18,15 @@
                     "lua": [ "alpha_1a.lua" ]
                 },
                 {
-                    "name": "Arena",
-                    "position": [ -220, -150 ],
-                    "map": "arena.map"
+                    "name": "False Beacon",
+                    "position": [ 100, -50 ],
+                    "map": "alpha_1a.map",
+                    "lua": [ "alpha_1a.lua" ]
                 }
             ]
         },
         {
-            "name": "Beta Sector",
+            "name": "Meta Sector",
             "center": [ -80, -90 ],
             "boundary": [
                 [ -50,  50 ],
@@ -35,10 +36,10 @@
             ],
             "levels": [
                 {
-                    "name": "False Beacon",
+                    "name": "Arena",
                     "position": [ 0, 0 ],
-                    "map": "alpha_1a.map",
-                    "lua": [ "alpha_1a.lua" ]
+                    "map": "arena.map",
+                    "lua": [ "arena.lua" ]
                 }
             ]
         }
