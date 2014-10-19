@@ -19,7 +19,7 @@ end
 --
 function Map:update(dt)
 
-    if self.maplogic then
+    if self.maplogic and self.maplogic.update then
 
         self.maplogic:update(dt)
 
@@ -33,6 +33,12 @@ end
 -- Does nothing by default, override this in a subclass.
 --
 function Map:draw()
+
+    if self.maplogic and self.maplogic.draw then
+
+        self.maplogic:draw()
+
+    end
     
 end
 
@@ -57,7 +63,7 @@ function Map:loadMap(pack, map, lua)
 
         if not ok then
 
-            return false
+            return false, chunk
 
         end
 
@@ -65,7 +71,7 @@ function Map:loadMap(pack, map, lua)
 
         if not ok then
 
-            return false
+            return false, chunk
 
         end
 

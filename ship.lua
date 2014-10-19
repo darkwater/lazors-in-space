@@ -24,18 +24,19 @@ function Ship:initialize(x, y)
 
     self.damage = 5
 
-    self.shield = Shield:new(self.body, 22, 10)
+    self.shield = Shield:new(self.body, 22, 300)
+
+    self.rumbleObjects = {}
 
     self.keyboardEnabled  = true
     self.mouseEnabled     = true
-    self.joystickEnabled  = true
+    self.joystickEnabled  = false
 
-    if love.joystick.getJoystickCount() > 0 then
+    if love.joystick.getJoystickCount() > 0 and self.joystickEnabled then
 
         self.joystick = love.joystick.getJoysticks()[1]
 
         self.joystickDeadzone = 0.25
-        self.rumbleObjects = {}
 
         self:rumble(0.5, 0, 0.1)
         print(self.joystick:getName() .. " connected!")
@@ -92,7 +93,7 @@ function Ship:update(dt)
         local ang  = math.atan2(my, mx)
         local dist = math.clamp(-1, math.sqrt(mx ^ 2 + my ^ 2), 1)
 
-        if dist > self.joystickDeadzone then
+        if not self.joystickEnabled or dist > self.joystickDeadzone then
 
             self:moveInDirection(ang, dist)
 
@@ -101,7 +102,7 @@ function Ship:update(dt)
     end
 
 
-    if self.mouseEnabled == 'mouse' then
+    if self.mouseEnabled then
 
         if love.window.hasMouseFocus() then
 
@@ -125,8 +126,6 @@ function Ship:update(dt)
 
     for k,v in pairs(self.rumbleObjects) do
 
-        print(v.force, v.duration, v.delta)
-
         rumbleForce = rumbleForce + v.force
         v.force = v.force - v.delta * dt
         v.duration = v.duration - dt
@@ -141,7 +140,10 @@ function Ship:update(dt)
 
     rumbleForce = math.min(rumbleForce, 1)
 
-    if self.joystick:isVibrationSupported() then
+    game.camerax = game.camerax + math.random(-rumbleForce * 10, rumbleForce * 10)
+    game.cameray = game.cameray + math.random(-rumbleForce * 10, rumbleForce * 10)
+
+    if self.joystickEnabled and self.joystick:isVibrationSupported() then
 
         self.joystick:setVibration(rumbleForce, rumbleForce)
 
@@ -176,7 +178,8 @@ function Ship:impact(ent, contact)
 
             game.over = true
 
-            self.joystick:setVibration(0, 0)
+            if self.joystickEnabled then self.joystick:setVibration(0, 0) end
+
             self.rumbleObjects = {}
 
         end

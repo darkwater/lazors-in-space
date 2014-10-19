@@ -62,7 +62,13 @@ function game.load(pack, sector, level)
     local level = info.sectors[sector].levels[level]
 
     game.map = Map:new()
-    game.map:loadMap(pack, level.map, level.lua)
+    local ok, fault = game.map:loadMap(pack, level.map, level.lua)
+
+    if not ok then
+
+        error(fault)
+
+    end
 
     game.ship = Ship:new(0, 0)
 
